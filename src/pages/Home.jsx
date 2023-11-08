@@ -35,6 +35,7 @@ import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 //table
 import { DataGrid } from "@mui/x-data-grid";
+//date
 
 const user = {
 	name: "Tom Cook",
@@ -52,8 +53,7 @@ const navigation = [
 ];
 const userNavigation = [
 	{ name: "Your Profile", href: "#" },
-	{ name: "Settings", href: "#" },
-	{ name: "Sign out", href: "#" },
+	{ name: "Logout", href: "#" },
 ];
 
 function classNames(...classes) {
@@ -83,6 +83,8 @@ const Home = () => {
 	//select
 	const [age, setAge] = useState("");
 
+	const [avatar, setAvatar] = useState("");
+
 	const handleChange_select = (event) => {
 		setAge(event.target.value);
 	};
@@ -111,12 +113,28 @@ const Home = () => {
 		removeCookie("token");
 		navigate("/");
 	};
-
 	const columns = [
 		{ field: "id", headerName: "番号", type: "number", width: 70 },
-		{ field: "photograph", headerName: "写真", type: "text", width: 200 },
+		{
+			field: "image",
+			headerName: "写真",
+			width: 200,
+			renderCell: (params) => (
+				<img
+					src={params.row.image}
+					alt=""
+					width={params.row.imageWidth}
+					height={params.row.imageHeight}
+				/>
+			),
+		},
 		{ field: "style_name", headerName: "スタイル名", type: "text", width: 160 },
-		{ field: "stylelist", headerName: "スタイリスト", type: "text", width: 100 },
+		{
+			field: "stylelist",
+			headerName: "スタイリスト",
+			type: "text",
+			width: 100,
+		},
 		{ field: "coupon", headerName: "クーポン", type: "text", width: 100 },
 		{
 			field: "original_ID",
@@ -162,7 +180,8 @@ const Home = () => {
 	const rows = [
 		{
 			id: 1,
-			photograph: "Snow",
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
 			style_name: "Jon",
 			stylelist: "asd",
 			coupon: "asd",
@@ -171,39 +190,144 @@ const Home = () => {
 			Sync_start_time: "asdf",
 			Last_Sync_time: "da",
 			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
 		},
-		{ id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-		{ id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-		{ id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-		{ id: 5, lastName: "Targaryen", firstName: "Daenerys", age: 34 },
-		{ id: 6, lastName: "Melisandre", firstName: "asd", age: 150 },
-		{ id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-		{ id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-		{ id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-		{ id: 10, lastName: "Roxie", firstName: "Harvey", age: 65 },
-		{ id: 11, lastName: "Roxie", firstName: "Harvey", age: 65 },
-		{ id: 12, lastName: "Snow", firstName: "Jon", age: 35 },
-		{ id: 13, lastName: "Lannister", firstName: "Cersei", age: 42 },
-		{ id: 14, lastName: "Lannister", firstName: "Jaime", age: 45 },
-		{ id: 15, lastName: "Stark", firstName: "Arya", age: 16 },
-		{ id: 16, lastName: "Targaryen", firstName: "Daenerys", age: 34 },
-		{ id: 17, lastName: "Melisandre", firstName: "asd", age: 150 },
-		{ id: 18, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-		{ id: 19, lastName: "Frances", firstName: "Rossini", age: 36 },
-		{ id: 20, lastName: "Roxie", firstName: "Harvey", age: 65 },
-		{ id: 21, lastName: "Roxie", firstName: "Harvey", age: 65 },
-		{ id: 22, lastName: "Roxie", firstName: "Harvey", age: 65 },
-		{ id: 23, lastName: "Snow", firstName: "Jon", age: 35 },
-		{ id: 24, lastName: "Lannister", firstName: "Cersei", age: 42 },
-		{ id: 25, lastName: "Lannister", firstName: "Jaime", age: 45 },
-		{ id: 26, lastName: "Stark", firstName: "Arya", age: 16 },
-		{ id: 27, lastName: "Targaryen", firstName: "Daenerys", age: 34 },
-		{ id: 28, lastName: "Melisandre", firstName: "asd", age: 150 },
-		{ id: 29, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-		{ id: 30, lastName: "Frances", firstName: "Rossini", age: 36 },
-		{ id: 31, lastName: "Roxie", firstName: "Harvey", age: 65 },
-		{ id: 32, lastName: "Roxie", firstName: "Harvey", age: 65 },
-		{ id: 33, lastName: "Roxie", firstName: "Harvey", age: 65 },
+		{
+			id: 2,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
+		{
+			id: 3,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
+		{
+			id: 4,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
+		{
+			id: 5,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
+		{
+			id: 6,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
+		{
+			id: 7,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
+		{
+			id: 8,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
+		{
+			id: 9,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
+		{
+			id: 10,
+			image:
+				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			style_name: "Jon",
+			stylelist: "asd",
+			coupon: "asd",
+			original_ID: "asd",
+			Sync_start_date: "sd",
+			Sync_start_time: "asdf",
+			Last_Sync_time: "da",
+			situation_MODE: "sdfa",
+			imageWidth: 100,
+			imageHeight: 100,
+		},
 	];
 
 	return (
@@ -964,7 +1088,7 @@ const Home = () => {
 										</div>
 									</div>
 									<div className="px-12 pt-16">
-										<div style={{ height: 635, width: "100%" }}>
+										<div style={{ height: "100%", width: "100%" }}>
 											<DataGrid
 												rows={rows}
 												columns={columns}
@@ -973,8 +1097,9 @@ const Home = () => {
 														paginationModel: { page: 0, pageSize: 10 },
 													},
 												}}
-												pageSizeOptions={[10, 20, 30]}
+												pageSizeOptions={[5, 10, 20, 30]}
 												checkboxSelection
+												rowHeight={120}
 											/>
 										</div>
 									</div>

@@ -44,21 +44,21 @@ const Signup = () => {
 			if (success) {
 				handleSuccess(message);
 				setTimeout(() => {
-					navigate("/login");
-				}, 10);
+					navigate("/");
+				}, 0);
 			} else {
 				handleError(message);
 			}
 		} catch (error) {
 			console.log(error);
 		}
-		setInputValue({
-			...inputValue,
-			email: "",
-			password: "",
-			confirm_password: "",
-			username: "",
-		});
+		// setInputValue({
+		// 	...inputValue,
+		// 	email: "",
+		// 	password: "",
+		// 	confirm_password: "",
+		// 	username: "",
+		// });
 	};
 
 	return (
@@ -66,11 +66,12 @@ const Signup = () => {
 			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 					<img
-						className="mx-auto h-10 w-auto"
-						src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+						className="mx-auto w-8/12 h-8/12"
+						// src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+						src="/logo/4.png"
 						alt="Your Company"
 					/>
-					<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+					<h2 className="mt-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
 						ユーザー登録
 					</h2>
 				</div>
@@ -92,8 +93,6 @@ const Signup = () => {
 									placeholder="例: a@gmail.com"
 									value={email}
 									onChange={handleOnChange}
-									autoComplete="email"
-									required
 									className="break-keep block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
 								/>
 							</div>
@@ -171,7 +170,7 @@ const Signup = () => {
 						</div>
 					</form>
 
-					<p className="mt-10 text-center text-sm">
+					<p className="mt-10 text-center text-sm text-red-600">
 						<a className="font-semibold leading-6 text-red-600 hover:text-red-500">
 							{alarm}
 						</a>

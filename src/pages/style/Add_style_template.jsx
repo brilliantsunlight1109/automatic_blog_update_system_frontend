@@ -50,13 +50,13 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 //checkbox
 import Checkbox from "@mui/material/Checkbox";
-import Style_template from "./Style_template";
 //checkbox-select
+import Style from "./Style";
 
-const Add_style = () => {
-	const [key, setKey] = useState("profile");
+const Add_style_template = () => {
+	const [key, setKey] = useState("home");
 	const navigate = useNavigate();
-	if (key == "home") {
+	if (key == "profile") {
 		navigate("/home");
 	}
 	const [state, setState] = useState({
@@ -127,70 +127,11 @@ const Add_style = () => {
 								onSelect={(k) => setKey(k)}
 								className="mb-3"
 							>
+								<Tab eventKey="profile" title="テンプレート">
+									<Style />
+								</Tab>
 								<Tab eventKey="home" title="スタイル">
 									<div className="container-xl m-auto">
-										<div className="flex flex-col justify-center items-center w-full">
-											<Box
-												sx={{ flexGrow: 1 }}
-												className="w-full max-w-5xl pt-6 mx-auto"
-											>
-												<AppBar position="static" className="rounded-t-lg">
-													<Toolbar>
-														{/* <IconButton
-															size="large"
-															edge="start"
-															color="inherit"
-															aria-label="menu"
-															sx={{ mr: 2 }}
-														> */}
-														{/* <MenuIcon className="mr-6" /> */}
-														{/* </IconButton> */}
-														<Typography
-															variant="h6"
-															component="div"
-															sx={{ flexGrow: 1 }}
-														>
-															スタイルテンプレート
-														</Typography>
-														{/* <Button color="inherit">Login</Button> */}
-													</Toolbar>
-												</AppBar>
-												<Card className="flex justify-center w-full">
-													<CardContent className="rounded-tr-none">
-														<div className="flex justify-center items-center gap-x-16 pb-3 pt-4">
-															<Box sx={{ minWidth: 300 }}>
-																<FormControl fullWidth>
-																	<InputLabel id="demo-simple-select-label">
-																		未選択
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="未選択"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>未選択</MenuItem>
-																		<MenuItem value={20}>【仮登録用】</MenuItem>
-																	</Select>
-																</FormControl>
-															</Box>
-															<Box
-																sx={{ minWidth: 300 }}
-																className="flex justify-center items-center"
-															>
-																<Button
-																	variant="contained"
-																	className="py-3 w-full"
-																>
-																	テンプレートを反映
-																</Button>
-															</Box>
-														</div>
-													</CardContent>
-												</Card>
-											</Box>
-										</div>
 										<div className="mt-24 flex justify-center gap-x-14">
 											<Box
 												sx={{ minWidth: 300 }}
@@ -233,7 +174,7 @@ const Add_style = () => {
 															component="div"
 															sx={{ flexGrow: 1 }}
 														>
-															同期設定
+															テンプレート名・同期設定
 														</Typography>
 														{/* <Button color="inherit">Login</Button> */}
 													</Toolbar>
@@ -241,6 +182,18 @@ const Add_style = () => {
 												<Card className="flex justify-start w-full">
 													<CardContent className="rounded-tr-none">
 														<div className="flex justify-start pl-20 pb-3 pt-3 w-full flex-col">
+															<Box sx={{ minWidth: 300 }} className="pb-6">
+																<Typography className="pb-3">
+																	テンプレート名
+																</Typography>
+																<FormControl className="w-full">
+																	<TextField
+																		id="outlined-basic"
+																		label="テンプレート名"
+																		variant="outlined"
+																	/>
+																</FormControl>
+															</Box>
 															<Box>
 																<FormControl
 																	component="fieldset"
@@ -1263,9 +1216,6 @@ const Add_style = () => {
 										</div>
 									</div>
 								</Tab>
-								<Tab eventKey="profile" title="テンプレート">
-									<Style_template />
-								</Tab>
 							</Tabs>
 						</div>
 					</main>
@@ -1275,4 +1225,4 @@ const Add_style = () => {
 	);
 };
 
-export default Add_style;
+export default Add_style_template;

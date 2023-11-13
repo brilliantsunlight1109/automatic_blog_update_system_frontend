@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import Stylenav from "../Stylenav";
+
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 //button
@@ -53,37 +53,12 @@ import Checkbox from "@mui/material/Checkbox";
 //datagrid
 import { DataGrid } from "@mui/x-data-grid";
 
-const Style_template = () => {
+const BlogList = () => {
 	const columns = [
 		{ field: "id", headerName: "番号", type: "number", width: 100 },
 		{
-			field: "template_name",
-			headerName: "テンプレート名",
-			type: "text",
-			width: 200,
-		},
-		{ field: "style_name", headerName: "スタイル名", type: "text", width: 200 },
-		{
-			field: "category",
-			headerName: "カテゴリ",
-			type: "text",
-			width: 200,
-		},
-		{
-			field: "length",
-			headerName: "長さ",
-			type: "text",
-			width: 200,
-		},
-		{
-			field: "color",
-			headerName: "カラー",
-			type: "text",
-			width: 200,
-		},
-		{
 			field: "image",
-			headerName: "写真",
+			headerName: "画像",
 			width: 200,
 			renderCell: (params) => (
 				<img
@@ -94,6 +69,49 @@ const Style_template = () => {
 				/>
 			),
 		},
+		{
+			field: "title",
+			headerName: "タイトル",
+			type: "text",
+			width: 200,
+		},
+		{
+			field: "category",
+			headerName: "カテゴリ",
+			type: "text",
+			width: 200,
+		},
+		{
+			field: "contributor",
+			headerName: "投稿者",
+			type: "text",
+			width: 200,
+		},
+		{
+			field: "coupon",
+			headerName: "クーポン",
+			type: "text",
+			width: 200,
+		},
+		{
+			field: "ID",
+			headerName: "ID",
+			type: "text",
+			width: 100,
+		},
+		{
+			field: "Scheduled_posting_time",
+			headerName: "投稿予定時刻",
+			type: "text",
+			width: 200,
+		},
+		{
+			field: "type",
+			headerName: "type",
+			type: "text",
+			width: 200,
+		},
+
 		// {
 		// 	field: "fullName",
 		// 	headerName: "Full name",
@@ -108,34 +126,32 @@ const Style_template = () => {
 	const rows = [
 		{
 			id: 1,
-			template_name: "asd",
-			style_name: "Jon",
-			category: "ds",
-			length: "ad",
-			color: "d",
 			image:
 				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+			title: "asd",
+			category: "Jon",
+			contributor: "ds",
+			coupon: "ad",
+			ID: "44",
+			Scheduled_posting_time: "asdf",
+			type: "asf",
 			imageWidth: 100,
 			imageHeight: 100,
 		},
 	];
-	//add_template
+
 	const navigate = useNavigate();
-	const add_style_template = () => {
-		navigate("/add_style_template");
+	const addBlog = () => {
+		navigate("/add-blog");
 	};
 
 	return (
 		<>
 			<div className="container-xl min-h-screen">
-				<div className="flex justify-center items-center mt-12">
+				<div className="flex justify-center pt-6">
 					<Box>
-						<Button
-							variant="contained"
-							className="w-72 py-2"
-							onClick={add_style_template}
-						>
-							新規テンプレート
+						<Button variant="contained" className="w-48 py-2" onClick={addBlog}>
+							ブログ追加
 						</Button>
 					</Box>
 				</div>
@@ -160,4 +176,4 @@ const Style_template = () => {
 	);
 };
 
-export default Style_template;
+export default BlogList;

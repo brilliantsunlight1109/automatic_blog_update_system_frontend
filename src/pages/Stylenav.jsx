@@ -14,16 +14,16 @@ const user = {
 		"https://w7.pngwing.com/pngs/8/232/png-transparent-computer-icons-man-avatar-male-login-man-people-monochrome-black-thumbnail.png",
 };
 const navigation = [
-	{ name: "スタイル", href: "/home", current: true },
+	{ name: "スタイル", href: "/home", current: false },
 	{ name: "ブログ", href: "/blog", current: false },
-	{ name: "Reviews", href: "#", current: false },
-	{ name: "Sync history", href: "#", current: false },
-	{ name: "setting", href: "#", current: false },
-	{ name: "notice", href: "#", current: false },
+	{ name: "口コミ", href: "#", current: false },
+	{ name: "同期履歴", href: "#", current: false },
+	{ name: "設定", href: "/your-profile", current: false },
+	{ name: "お知らせ", href: "/notice", current: false },
 ];
 const userNavigation = [
-	{ name: "Your Profile", href: "#" },
-	{ name: "Logout", href: "#" },
+	{ name: "Your Profile", href: "/profile" },
+	{ name: "Logout", href: "/logout" },
 ];
 
 function classNames(...classes) {
@@ -73,6 +73,9 @@ const Stylenav = () => {
 	const Logout = () => {
 		removeCookie("token");
 		navigate("/");
+	};
+	const YourProfile = () => {
+		navigate("/your-profile");
 	};
 
 	return (
@@ -163,7 +166,7 @@ const Stylenav = () => {
 														<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 															<Menu.Item>
 																<button
-																	onClick={Logout}
+																	onClick={YourProfile}
 																	className="block text-left w-full px-4 py-2 text-lg text-gray-700 active:bg-gray-300"
 																>
 																	Your Profile

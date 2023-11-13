@@ -48,7 +48,7 @@ const Style = () => {
 		antoine: false,
 	});
 	const add_style = () => {
-		navigate("/add_style");
+		navigate("/add-style");
 	};
 	const handleChange = (event) => {
 		setState({

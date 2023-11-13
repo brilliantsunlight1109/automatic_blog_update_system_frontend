@@ -1,9 +1,13 @@
 import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { Login, Signup, Home } from "./pages";
-import Add_style from "./pages/style/Add_style";
+import AddStyle from "./pages/style/AddStyle";
 import Error from "./pages/Error";
-import Add_style_template from "./pages/style/Add_style_template";
+import AddStyleTemplate from "./pages/style/AddStyleTemplate";
+import Blog from "./pages/blog/blog";
+import AddBlog from "./pages/blog/addBlog";
+import Notice from "./pages/notice/notice";
+import YourProfile from "./pages/profile/yourProfile";
 
 function App() {
 	return (
@@ -13,36 +17,17 @@ function App() {
 					<Route path="/" element={<Login />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/signup" element={<Signup />} />
-					<Route path="/add_style" element={<Add_style />} />
-					<Route path="/add_style_template" element={<Add_style_template />} />
+					<Route path="/add-style" element={<AddStyle />} />
+					<Route path="/add-style-template" element={<AddStyleTemplate />} />
+					<Route path="/blog" element={<Blog />} />
+					<Route path="/add-blog" element={<AddBlog />} />
+					<Route path="/your-profile" element={<YourProfile />} />
+					<Route path="/notice" element={<Notice />} />
 					<Route path="*" element={<Error />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
 	);
 }
-
-// function App() {
-// 	return (
-// 	  <div className="App">
-// 		 <BrowserRouter>
-// 			<Routes>
-// 			  <Route path="/" element={<Login />} />
-
-// 			  <Route path="/home" element={
-// 				 <>
-// 					<Stylenav />
-// 					<Home />
-// 				 </>
-// 			  } />
-
-// 			  <Route path="/signup" element={<Signup />} />
-
-// 			  <Route path="*" element={<Error />} />
-// 			</Routes>
-// 		 </BrowserRouter>
-// 	  </div>
-// 	);
-//  }
 
 export default App;

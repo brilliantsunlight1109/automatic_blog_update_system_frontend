@@ -46,6 +46,20 @@ const Style = () => {
 		gilad: false,
 		jason: false,
 		antoine: false,
+		a: false,
+		b: false,
+		c: false,
+		d: false,
+		e: false,
+		f: false,
+		g: false,
+		h: false,
+		i: false,
+		j: false,
+		k: false,
+		l: false,
+		m: false,
+		n: false,
 	});
 	const add_style = () => {
 		navigate("/add-style");
@@ -56,6 +70,7 @@ const Style = () => {
 			[event.target.name]: event.target.checked,
 		});
 	};
+
 	//select
 	const [age, setAge] = useState("");
 
@@ -356,9 +371,9 @@ const Style = () => {
 															<FormControlLabel
 																control={
 																	<Switch
-																		checked={state.antoine}
+																		checked={state.a}
 																		onChange={handleChange}
-																		name="antoine"
+																		name="a"
 																	/>
 																}
 																label="同期開始時間"
@@ -373,9 +388,9 @@ const Style = () => {
 															<FormControlLabel
 																control={
 																	<Switch
-																		checked={state.antoine}
+																		checked={state.b}
 																		onChange={handleChange}
-																		name="antoine"
+																		name="b"
 																	/>
 																}
 																label="同期間隔"
@@ -413,9 +428,9 @@ const Style = () => {
 															<FormControlLabel
 																control={
 																	<Switch
-																		checked={state.antoine}
+																		checked={state.c}
 																		onChange={handleChange}
-																		name="antoine"
+																		name="c"
 																	/>
 																}
 																label="スタイリスト"
@@ -449,9 +464,9 @@ const Style = () => {
 															<FormControlLabel
 																control={
 																	<Switch
-																		checked={state.antoine}
+																		checked={state.d}
 																		onChange={handleChange}
-																		name="antoine"
+																		name="d"
 																	/>
 																}
 																label="スタイル名"
@@ -468,9 +483,9 @@ const Style = () => {
 															<FormControlLabel
 																control={
 																	<Switch
-																		checked={state.antoine}
+																		checked={state.e}
 																		onChange={handleChange}
-																		name="antoine"
+																		name="e"
 																	/>
 																}
 																label="MODE"
@@ -524,9 +539,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.f}
 															onChange={handleChange}
-															name="antoine"
+															name="f"
 														/>
 													}
 													label="スタイル名"
@@ -543,9 +558,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.g}
 															onChange={handleChange}
-															name="antoine"
+															name="g"
 														/>
 													}
 													label="スタイリスト"
@@ -579,9 +594,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.h}
 															onChange={handleChange}
-															name="antoine"
+															name="h"
 														/>
 													}
 													label="クーポン"
@@ -611,9 +626,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.i}
 															onChange={handleChange}
-															name="antoine"
+															name="i"
 														/>
 													}
 													label="オリジナルID/コピーID"
@@ -630,9 +645,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.j}
 															onChange={handleChange}
-															name="antoine"
+															name="j"
 														/>
 													}
 													label="同期期間"
@@ -652,9 +667,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.k}
 															onChange={handleChange}
-															name="antoine"
+															name="k"
 														/>
 													}
 													label="同期開始時間"
@@ -674,9 +689,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.l}
 															onChange={handleChange}
-															name="antoine"
+															name="l"
 														/>
 													}
 													label="同期間隔"
@@ -714,9 +729,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.m}
 															onChange={handleChange}
-															name="antoine"
+															name="m"
 														/>
 													}
 													label="状態"
@@ -747,9 +762,9 @@ const Style = () => {
 												<FormControlLabel
 													control={
 														<Switch
-															checked={state.antoine}
+															checked={state.n}
 															onChange={handleChange}
-															name="antoine"
+															name="n"
 														/>
 													}
 													label="MODE"

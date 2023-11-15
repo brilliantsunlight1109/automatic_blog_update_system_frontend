@@ -16,9 +16,9 @@ const user = {
 const navigation = [
 	{ name: "スタイル", href: "/home", current: false },
 	{ name: "ブログ", href: "/blog", current: false },
-	{ name: "口コミ", href: "#", current: false },
-	{ name: "同期履歴", href: "#", current: false },
-	{ name: "設定", href: "/your-profile", current: false },
+	{ name: "口コミ", href: "/review", current: false },
+	{ name: "同期履歴", href: "sync-history", current: false },
+	{ name: "設定", href: "/setting", current: false },
 	{ name: "お知らせ", href: "/notice", current: false },
 ];
 const userNavigation = [

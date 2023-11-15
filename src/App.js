@@ -7,7 +7,9 @@ import AddStyleTemplate from "./pages/style/AddStyleTemplate";
 import Blog from "./pages/blog/blog";
 import AddBlog from "./pages/blog/addBlog";
 import Notice from "./pages/notice/notice";
-import YourProfile from "./pages/profile/yourProfile";
+import StyleSetting from "./pages/stylesetting/styleSetting";
+import Review from "./pages/review/review";
+import SyncHistory from "./pages/synchistory/synchistory";
 
 function App() {
 	return (
@@ -21,8 +23,10 @@ function App() {
 					<Route path="/add-style-template" element={<AddStyleTemplate />} />
 					<Route path="/blog" element={<Blog />} />
 					<Route path="/add-blog" element={<AddBlog />} />
-					<Route path="/your-profile" element={<YourProfile />} />
+					<Route path="/setting" element={<StyleSetting />} />
 					<Route path="/notice" element={<Notice />} />
+					<Route path="/review" element={<Review />} />
+					<Route path="/sync-history" element={<SyncHistory />} />
 					<Route path="*" element={<Error />} />
 				</Routes>
 			</BrowserRouter>

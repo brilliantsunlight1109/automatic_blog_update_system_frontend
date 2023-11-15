@@ -54,33 +54,66 @@ import StyleTemplate from "./StyleTemplate";
 //checkbox-select
 
 const AddStyle = () => {
+	//tab
 	const [key, setKey] = useState("home");
 	const navigate = useNavigate();
-	// if (key == "profile") {
-	// 	navigate("/home");
-	// }
-	const [state, setState] = useState({
-		gilad: false,
-		jason: false,
-		antoine: true,
+
+	//const
+	const [data, setData] = useState({
+		internal_memo: "",
+		stylist_comment: "",
+		style_name: "",
+		styling_arrangement_point: "",
+		sync_date_start: "",
+		sync_date_end: "",
+		sync_start_time: "",
+		sync_interval: 0,
+		update_stop: false,
+		post_mode: 0,
 	});
-	const [age, setAge] = useState("");
 
-	const handleChange = (event) => {
-		setAge(event.target.value);
-	};
-
-	const handleChange_select = (event) => {
-		setAge(event.target.value);
-	};
-
-	const handleChange_checked = (event) => {
+	//switch
+	const [state, setState] = useState({
+		update_stop: false,
+	});
+	const updateStop = (event) => {
 		setState({
 			...state,
 			[event.target.name]: event.target.checked,
 		});
 	};
-	//upload
+	// console.log(state.update_stop);
+
+	//textarea
+
+	const handleChangeTextarea = (e) => {
+		setData((data) => ({ ...data, [e.target.name]: e.target.value }));
+	};
+
+	//sync_date
+	const handleChangeSyncDate = (e) => {
+		setData((data) => ({ ...data, [e.target.name]: e.target.value }));
+	};
+
+	//sync_time
+	const handleChangeSyncTime = (e) => {
+		setData((data) => ({ ...data, [e.target.name]: e.target.value }));
+	};
+
+	//select
+	const handleChangeSelect = (e) => {
+		setData((data) => ({ ...data, [e.target.name]: e.target.value }));
+	};
+
+	//select_post_mode
+
+	// console.log(data.sync_date_start);
+	// console.log(data.sync_date_end);
+	// console.log(data.sync_start_time);
+	// console.log(data.sync_interval);
+	console.log(data.post_mode);
+
+	//fileUpload
 	const VisuallyHiddenInput = styled("input")({
 		clip: "rect(0 0 0 0)",
 		clipPath: "inset(50%)",
@@ -92,6 +125,29 @@ const AddStyle = () => {
 		whiteSpace: "nowrap",
 		width: 1,
 	});
+	const [selectedImage, setSelectedImage] = useState(null);
+
+	const handleFileChange = (event) => { 
+		const file = event.target.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = () => {
+				setSelectedImage(reader.result);
+			};
+			reader.readAsDataURL(file);
+		}
+	};
+
+	const handleChange = (event) => {
+		setAge(event.target.value);
+	};
+
+	const handleChange_select = (event) => {
+		setAge(event.target.value);
+	};
+
+	//upload
+
 	//checked
 	const [checked, setChecked] = useState(true);
 
@@ -105,6 +161,36 @@ const AddStyle = () => {
 
 	const handleChange_checked3 = (event) => {
 		setChecked(event.target.checked);
+	};
+
+	const [age, setAge] = useState("");
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		// const style = {
+		// 	internal_memo: data.internal_memo,
+		// 	stylist_comment: data.stylist_comment,
+		// 	style_name: data.style_name,
+		// 	styling_arrangement_point: data.styling_arrangement_point,
+		// };
+		// console.log(style);
+
+		axios
+			.post("http://localhost:4000/api/style", data)
+			.then((res) => {
+				setData({
+					internal_memo: "",
+					stylist_comment: "",
+					style_name: "",
+					styling_arrangement_point: "",
+				});
+				console.log(res.data.message);
+			})
+			.catch((err) => {
+				console.log("Error couldn't create Style");
+				console.log(err.message);
+			});
 	};
 
 	return (
@@ -129,1138 +215,1218 @@ const AddStyle = () => {
 							>
 								<Tab eventKey="home" title="スタイル">
 									<div className="container-xl m-auto">
-										<div className="flex flex-col justify-center items-center w-full">
-											<Box
-												sx={{ flexGrow: 1 }}
-												className="w-full max-w-5xl pt-6 mx-auto"
-											>
-												<AppBar position="static" className="rounded-t-lg">
-													<Toolbar>
-														{/* <IconButton
-															size="large"
-															edge="start"
-															color="inherit"
-															aria-label="menu"
-															sx={{ mr: 2 }}
-														> */}
-														{/* <MenuIcon className="mr-6" /> */}
-														{/* </IconButton> */}
-														<Typography
-															variant="h6"
-															component="div"
-															sx={{ flexGrow: 1 }}
-														>
-															スタイルテンプレート
-														</Typography>
-														{/* <Button color="inherit">Login</Button> */}
-													</Toolbar>
-												</AppBar>
-												<Card className="flex justify-center w-full">
-													<CardContent className="rounded-tr-none">
-														<div className="flex justify-center items-center gap-x-16 pb-3 pt-4">
-															<Box sx={{ minWidth: 300 }}>
-																<FormControl fullWidth>
-																	<InputLabel id="demo-simple-select-label">
-																		未選択
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="未選択"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>未選択</MenuItem>
-																		<MenuItem value={20}>【仮登録用】</MenuItem>
-																	</Select>
-																</FormControl>
-															</Box>
-															<Box
-																sx={{ minWidth: 300 }}
-																className="flex justify-center items-center"
-															>
-																<Button
-																	variant="contained"
-																	className="py-3 w-full"
-																>
-																	テンプレートを反映
-																</Button>
-															</Box>
-														</div>
-													</CardContent>
-												</Card>
-											</Box>
-										</div>
-										<div className="mt-24 flex justify-center gap-x-14">
-											<Box
-												sx={{ minWidth: 300 }}
-												className="flex justify-center items-center"
-											>
-												<Button
-													variant="contained"
-													className="py-3 w-72 text-4xl"
+										<form onSubmit={handleSubmit}>
+											<div className="flex flex-col justify-center items-center w-full">
+												<Box
+													sx={{ flexGrow: 1 }}
+													className="w-full max-w-5xl pt-6 mx-auto"
 												>
-													一覧へ戻る
-												</Button>
-											</Box>
-											<Box
-												sx={{ minWidth: 300 }}
-												className="flex justify-center items-center"
-											>
-												<Button variant="contained" className="py-3 w-72">
-													追加
-												</Button>
-											</Box>
-										</div>
-										<div className="flex flex-col justify-center items-center w-full">
-											<Box
-												sx={{ flexGrow: 1 }}
-												className="w-full max-w-5xl mx-auto pt-12"
-											>
-												<AppBar position="static" className="rounded-t-lg">
-													<Toolbar>
-														{/* <IconButton
+													<AppBar position="static" className="rounded-t-lg">
+														<Toolbar>
+															{/* <IconButton
 															size="large"
 															edge="start"
 															color="inherit"
 															aria-label="menu"
 															sx={{ mr: 2 }}
 														> */}
-														{/* <MenuIcon className="mr-6" /> */}
-														{/* </IconButton> */}
-														<Typography
-															variant="h6"
-															component="div"
-															sx={{ flexGrow: 1 }}
-														>
-															同期設定
-														</Typography>
-														{/* <Button color="inherit">Login</Button> */}
-													</Toolbar>
-												</AppBar>
-												<Card className="flex justify-start w-full">
-													<CardContent className="rounded-tr-none">
-														<div className="flex justify-start pl-20 pb-3 pt-3 w-full flex-col">
-															<Box>
-																<FormControl
-																	component="fieldset"
-																	variant="standard"
+															{/* <MenuIcon className="mr-6" /> */}
+															{/* </IconButton> */}
+															<Typography
+																variant="h6"
+																component="div"
+																sx={{ flexGrow: 1 }}
+															>
+																スタイルテンプレート
+															</Typography>
+															{/* <Button color="inherit">Login</Button> */}
+														</Toolbar>
+													</AppBar>
+													<Card className="flex justify-center w-full">
+														<CardContent className="rounded-tr-none">
+															<div className="flex justify-center items-center gap-x-16 pb-3 pt-4">
+																<Box sx={{ minWidth: 300 }}>
+																	<FormControl fullWidth>
+																		<InputLabel id="demo-simple-select-label">
+																			未選択
+																		</InputLabel>
+																		<Select
+																			labelId="demo-simple-select-label"
+																			id="demo-simple-select"
+																			value={age}
+																			label="未選択"
+																			onChange={handleChange}
+																		>
+																			<MenuItem value={10}>未選択</MenuItem>
+																			<MenuItem value={20}>
+																				【仮登録用】
+																			</MenuItem>
+																		</Select>
+																	</FormControl>
+																</Box>
+																<Box
+																	sx={{ minWidth: 300 }}
+																	className="flex justify-center items-center"
 																>
-																	{/* <FormLabel component="legend">
+																	<Button
+																		variant="contained"
+																		className="py-3 w-full"
+																	>
+																		テンプレートを反映
+																	</Button>
+																</Box>
+															</div>
+														</CardContent>
+													</Card>
+												</Box>
+											</div>
+											<div className="mt-24 flex justify-center gap-x-14">
+												<Box
+													sx={{ minWidth: 300 }}
+													className="flex justify-center items-center"
+												>
+													<Button
+														variant="contained"
+														className="py-3 w-72 text-4xl"
+													>
+														一覧へ戻る
+													</Button>
+												</Box>
+												<Box
+													sx={{ minWidth: 300 }}
+													className="flex justify-center items-center"
+												>
+													<Button variant="contained" className="py-3 w-72">
+														追加
+													</Button>
+												</Box>
+											</div>
+											<div className="flex flex-col justify-center items-center w-full">
+												<Box
+													sx={{ flexGrow: 1 }}
+													className="w-full max-w-5xl mx-auto pt-12"
+												>
+													<AppBar position="static" className="rounded-t-lg">
+														<Toolbar>
+															{/* <IconButton
+															size="large"
+															edge="start"
+															color="inherit"
+															aria-label="menu"
+															sx={{ mr: 2 }}
+														> */}
+															{/* <MenuIcon className="mr-6" /> */}
+															{/* </IconButton> */}
+															<Typography
+																variant="h6"
+																component="div"
+																sx={{ flexGrow: 1 }}
+															>
+																同期設定
+															</Typography>
+															{/* <Button color="inherit">Login</Button> */}
+														</Toolbar>
+													</AppBar>
+													<Card className="flex justify-start w-full">
+														<CardContent className="rounded-tr-none">
+															<div className="flex justify-start pl-20 pb-3 pt-3 w-full flex-col">
+																<Box>
+																	<FormControl
+																		component="fieldset"
+																		variant="standard"
+																	>
+																		{/* <FormLabel component="legend">
 																		Assign responsibility
 																	</FormLabel> */}
-																	<FormGroup>
-																		<FormControlLabel
-																			control={
-																				<Switch
-																					checked={state.gilad}
-																					onChange={handleChange_checked}
-																					name="gilad"
-																				/>
-																			}
-																			label="更新停止"
+																		<FormGroup>
+																			<FormControlLabel
+																				control={
+																					<Switch
+																						checked={state.update_stop}
+																						onChange={updateStop}
+																						name="update_stop"
+																					/>
+																				}
+																				label="更新停止"
+																			/>
+																		</FormGroup>
+
+																		{/* <FormHelperText>Be careful</FormHelperText> */}
+																	</FormControl>
+																</Box>
+																<Box>
+																	<div className="mb-2 mt-1">内部メモ</div>
+																	<FormGroup className="w-[40rem]">
+																		<Form.Control
+																			as="textarea"
+																			rows={3}
+																			className="w-full"
+																			name="internal_memo"
+																			onChange={handleChangeTextarea}
+																			value={data.internal_memo}
 																		/>
 																	</FormGroup>
+																</Box>
+																<Box>
+																	<div className="mt-3 mb-3">同期期間</div>
+																	<div className="flex flex-row pb-2">
+																		<input
+																			type="date"
+																			name="sync_date_start"
+																			onChange={handleChangeSyncDate}
+																			value={data.sync_date_start}
+																			className="block mr-6 w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+																		/>
 
-																	{/* <FormHelperText>Be careful</FormHelperText> */}
-																</FormControl>
-															</Box>
-															<Box>
-																<div className="mb-2 mt-1">内部メモ</div>
-																<FormGroup className="w-[40rem]">
-																	<Form.Control
-																		as="textarea"
-																		rows={3}
-																		className="w-full"
-																	/>
-																</FormGroup>
-															</Box>
-															<Box>
-																<div className="mt-3 mb-3">同期期間</div>
-																<div className="flex flex-row pb-2">
-																	<input
-																		type="date"
-																		className="block mr-6 w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
-																	/>
-																	<input
-																		type="date"
-																		className="block w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
-																	/>
-																</div>
-															</Box>
-															<Box>
-																<div className="mt-3 mb-3">同期開始時間</div>
-																<div>
-																	<input
-																		type="time"
-																		className=" block w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
-																	/>
-																</div>
-															</Box>
-															<Box>
-																<div className="mt-3 mb-3">同期間隔</div>
-																<div>
-																	<FormControl className="w-ull">
-																		<InputLabel
-																			id="demo-simple-select-label"
-																			className="w-44"
-																		>
-																			同期間隔
-																		</InputLabel>
-																		<Select
-																			labelId="demo-simple-select-label"
-																			id="demo-simple-select"
-																			value={age}
-																			label="同期間隔"
-																			onChange={handleChange_select}
-																			className="w-44"
-																		>
-																			<MenuItem value={10}>1回のみ</MenuItem>
-																			<MenuItem value={20}>1時間</MenuItem>
-																			<MenuItem value={30}>2時間</MenuItem>
-																			<MenuItem value={40}>3時間</MenuItem>
-																			<MenuItem value={50}>4時間</MenuItem>
-																			<MenuItem value={60}>6時間</MenuItem>
-																			<MenuItem value={80}>8時間</MenuItem>
-																			<MenuItem value={80}>12時間</MenuItem>
-																			<MenuItem value={90}>1日</MenuItem>
-																			<MenuItem value={100}>1週間</MenuItem>
-																		</Select>
-																	</FormControl>
-																</div>
-															</Box>
-															<Box>
-																<div className="mt-3 mb-3">投稿モード</div>
-																<div>
-																	<FormControl className="w-48">
-																		<InputLabel
-																			id="demo-simple-select-label"
-																			className="w-44"
-																		>
-																			投稿モード
-																		</InputLabel>
-																		<Select
-																			labelId="demo-simple-select-label"
-																			id="demo-simple-select"
-																			value={age}
-																			label="投稿モード"
-																			onChange={handleChange_select}
-																			className="w-44"
-																		>
-																			<MenuItem value={10}>ADD</MenuItem>
-																			<MenuItem value={20}>DEL</MenuItem>
-																		</Select>
-																	</FormControl>
-																</div>
-															</Box>
-															<Box>
-																<Typography
-																	level="body-sm"
-																	className="ml-3 mt-3 mb-3 text-slate-400"
+																		<input
+																			type="date"
+																			name="sync_date_end"
+																			onChange={handleChangeSyncDate}
+																			value={data.sync_date_end}
+																			className="block w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+																		/>
+																	</div>
+																</Box>
+																<Box>
+																	<div className="mt-3 mb-3">同期開始時間</div>
+																	<div>
+																		<input
+																			type="time"
+																			name="sync_start_time"
+																			onChange={handleChangeSyncTime}
+																			value={data.sync_start_time}
+																			className=" block w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+																		/>
+																	</div>
+																</Box>
+																<Box>
+																	<div className="mt-3 mb-3">同期間隔</div>
+																	<div>
+																		<FormControl className="w-ull">
+																			<InputLabel
+																				id="demo-simple-select-label"
+																				className="w-44"
+																			>
+																				同期間隔
+																			</InputLabel>
+																			<Select
+																				labelId="demo-simple-select-label"
+																				id="demo-simple-select"
+																				name="sync_interval"
+																				value={data.sync_interval}
+																				label="同期間隔"
+																				onChange={handleChangeSelect}
+																				className="w-44"
+																			>
+																				<MenuItem value={0}>1回のみ</MenuItem>
+																				<MenuItem value={1}>1時間</MenuItem>
+																				<MenuItem value={2}>2時間</MenuItem>
+																				<MenuItem value={3}>3時間</MenuItem>
+																				<MenuItem value={4}>4時間</MenuItem>
+																				<MenuItem value={6}>6時間</MenuItem>
+																				<MenuItem value={8}>8時間</MenuItem>
+																				<MenuItem value={12}>12時間</MenuItem>
+																				<MenuItem value={24}>1日</MenuItem>
+																				<MenuItem value={100}>1週間</MenuItem>
+																			</Select>
+																		</FormControl>
+																	</div>
+																</Box>
+																<Box>
+																	<div className="mt-3 mb-3">投稿モード</div>
+																	<div>
+																		<FormControl className="w-48">
+																			<InputLabel
+																				id="demo-simple-select-label"
+																				className="w-44"
+																			>
+																				投稿モード
+																			</InputLabel>
+																			<Select
+																				labelId="demo-simple-select-label"
+																				id="demo-simple-select"
+																				value={data.post_mode}
+																				label="投稿モード"
+																				onChange={handleChangeSelect}
+																				className="w-44"
+																				name="post_mode"
+																			>
+																				<MenuItem value={1}>ADD</MenuItem>
+																				<MenuItem value={0}>DEL</MenuItem>
+																			</Select>
+																		</FormControl>
+																	</div>
+																</Box>
+																<Box>
+																	<Typography
+																		level="body-sm"
+																		className="ml-3 mt-3 mb-3 text-slate-400"
+																	>
+																		前回の同期で追加したスタイルを削除してから追加を行うモードです
+																	</Typography>
+																</Box>
+															</div>
+														</CardContent>
+													</Card>
+												</Box>
+											</div>
+											<div className="flex flex-col justify-center items-center w-full">
+												<Box
+													sx={{ flexGrow: 1 }}
+													className="w-full max-w-5xl pt-12 mx-auto"
+												>
+													<AppBar position="static" className="rounded-t-lg">
+														<Toolbar>
+															{/* <IconButton
+															size="large"
+															edge="start"
+															color="inherit"
+															aria-label="menu"
+															sx={{ mr: 2 }}
+														> */}
+															{/* <MenuIcon className="mr-6" /> */}
+															{/* </IconButton> */}
+															<Typography
+																variant="h6"
+																component="div"
+																sx={{ flexGrow: 1 }}
+															>
+																スタイル画像
+															</Typography>
+															{/* <Button color="inherit">Login</Button> */}
+														</Toolbar>
+													</AppBar>
+													<Card className="flex justify-center w-full">
+														<CardContent className="rounded-tr-none w-full">
+															<div className="flex justify-around items-center pb-3 pt-4 w-full">
+																<Box
+																	sx={{ minWidth: 200 }}
+																	className="flex justify-between flex-col h-[24.5rem]"
 																>
-																	前回の同期で追加したスタイルを削除してから追加を行うモードです
-																</Typography>
-															</Box>
-														</div>
-													</CardContent>
-												</Card>
-											</Box>
-										</div>
-										<div className="flex flex-col justify-center items-center w-full">
-											<Box
-												sx={{ flexGrow: 1 }}
-												className="w-full max-w-5xl pt-12 mx-auto"
-											>
-												<AppBar position="static" className="rounded-t-lg">
-													<Toolbar>
-														{/* <IconButton
+																	<div>
+																		<FormControl fullWidth>
+																			<InputLabel id="demo-simple-select-label">
+																				未選択
+																			</InputLabel>
+																			<Select
+																				labelId="demo-simple-select-label"
+																				id="demo-simple-select"
+																				value={age}
+																				label="未選択"
+																				onChange={handleChange}
+																			>
+																				<MenuItem value={10}>Front</MenuItem>
+																			</Select>
+																		</FormControl>
+																	</div>
+
+																	<div className="flex justify-center items-center pt-5 pb-5">
+																		<img
+																			src={selectedImage}
+																			// src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
+																			width={200}
+																			// height={200}
+																		/>
+																	</div>
+																	<div className="flex justify-center items-center">
+																		<Button
+																			component="label"
+																			variant="contained"
+																			startIcon={<CloudUploadIcon />}
+																		>
+																			アップロード
+																			<VisuallyHiddenInput
+																				type="file"
+																				onChange={handleFileChange}
+																			/>
+																		</Button>
+																	</div>
+																</Box>
+																<Box
+																	sx={{ minWidth: 200 }}
+																	className="flex justify-between flex-col h-[24.5rem]"
+																>
+																	<FormControl fullWidth>
+																		<InputLabel id="demo-simple-select-label">
+																			指定なし
+																		</InputLabel>
+																		<Select
+																			labelId="demo-simple-select-label"
+																			id="demo-simple-select"
+																			value={age}
+																			label="指定なし"
+																			onChange={handleChange}
+																		>
+																			<MenuItem value={10}>指定なし</MenuItem>
+																			<MenuItem value={20}>FRONT</MenuItem>
+																			<MenuItem value={10}>SIDE</MenuItem>
+																			<MenuItem value={20}>BACK</MenuItem>
+																			<MenuItem value={10}>ARRANGE</MenuItem>
+																			<MenuItem value={20}>BEFORE</MenuItem>
+																			<MenuItem value={20}>FASHION</MenuItem>
+																		</Select>
+																	</FormControl>
+																	<div className="flex justify-center items-center pt-5 pb-5">
+																		<img
+																			src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
+																			width={200}
+																			height={200}
+																		/>
+																	</div>
+																	<div className="flex justify-center items-center">
+																		<Button
+																			component="label"
+																			variant="contained"
+																			startIcon={<CloudUploadIcon />}
+																		>
+																			アップロード
+																			<VisuallyHiddenInput type="file" />
+																		</Button>
+																	</div>
+																</Box>
+																<Box
+																	sx={{ minWidth: 200 }}
+																	className="flex justify-between flex-col h-[24.5rem]"
+																>
+																	<FormControl fullWidth>
+																		<InputLabel id="demo-simple-select-label">
+																			指定なし
+																		</InputLabel>
+																		<Select
+																			labelId="demo-simple-select-label"
+																			id="demo-simple-select"
+																			value={age}
+																			label="指定なし"
+																			onChange={handleChange}
+																		>
+																			<MenuItem value={10}>指定なし</MenuItem>
+																			<MenuItem value={20}>FRONT</MenuItem>
+																			<MenuItem value={10}>SIDE</MenuItem>
+																			<MenuItem value={20}>BACK</MenuItem>
+																			<MenuItem value={10}>ARRANGE</MenuItem>
+																			<MenuItem value={20}>BEFORE</MenuItem>
+																			<MenuItem value={20}>FASHION</MenuItem>
+																		</Select>
+																	</FormControl>
+																	<div className="flex justify-center items-center pt-5 pb-5">
+																		<img
+																			src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
+																			width={200}
+																			height={200}
+																		/>
+																	</div>
+																	<div className="flex justify-center items-center">
+																		<Button
+																			component="label"
+																			variant="contained"
+																			startIcon={<CloudUploadIcon />}
+																		>
+																			アップロード
+																			<VisuallyHiddenInput type="file" />
+																		</Button>
+																	</div>
+																</Box>
+															</div>
+														</CardContent>
+													</Card>
+												</Box>
+											</div>
+											<div className="flex flex-col justify-center items-center w-full">
+												<Box
+													sx={{ flexGrow: 1 }}
+													className="w-full max-w-5xl pt-12 mx-auto"
+												>
+													<AppBar position="static" className="rounded-t-lg">
+														<Toolbar>
+															{/* <IconButton
 															size="large"
 															edge="start"
 															color="inherit"
 															aria-label="menu"
 															sx={{ mr: 2 }}
 														> */}
-														{/* <MenuIcon className="mr-6" /> */}
-														{/* </IconButton> */}
-														<Typography
-															variant="h6"
-															component="div"
-															sx={{ flexGrow: 1 }}
-														>
-															スタイル画像
-														</Typography>
-														{/* <Button color="inherit">Login</Button> */}
-													</Toolbar>
-												</AppBar>
-												<Card className="flex justify-center w-full">
-													<CardContent className="rounded-tr-none">
-														<div className="flex justify-center items-center gap-x-32 pb-3 pt-4">
-															<Box sx={{ minWidth: 200 }}>
-																<FormControl fullWidth>
-																	<InputLabel id="demo-simple-select-label">
-																		未選択
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="未選択"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>Front</MenuItem>
-																	</Select>
-																</FormControl>
-																<div className="flex justify-center items-center pt-5 pb-5">
-																	<img
-																		src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
-																		width={200}
-																		height={200}
-																	/>
-																</div>
-																<div className="flex justify-center items-center">
-																	<Button
-																		component="label"
-																		variant="contained"
-																		startIcon={<CloudUploadIcon />}
-																	>
-																		アップロード
-																		<VisuallyHiddenInput type="file" />
-																	</Button>
-																</div>
-															</Box>
-															<Box sx={{ minWidth: 200 }}>
-																<FormControl fullWidth>
-																	<InputLabel id="demo-simple-select-label">
-																		指定なし
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="指定なし"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>指定なし</MenuItem>
-																		<MenuItem value={20}>FRONT</MenuItem>
-																		<MenuItem value={10}>SIDE</MenuItem>
-																		<MenuItem value={20}>BACK</MenuItem>
-																		<MenuItem value={10}>ARRANGE</MenuItem>
-																		<MenuItem value={20}>BEFORE</MenuItem>
-																		<MenuItem value={20}>FASHION</MenuItem>
-																	</Select>
-																</FormControl>
-																<div className="flex justify-center items-center pt-5 pb-5">
-																	<img
-																		src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
-																		width={200}
-																		height={200}
-																	/>
-																</div>
-																<div className="flex justify-center items-center">
-																	<Button
-																		component="label"
-																		variant="contained"
-																		startIcon={<CloudUploadIcon />}
-																	>
-																		アップロード
-																		<VisuallyHiddenInput type="file" />
-																	</Button>
-																</div>
-															</Box>
-															<Box sx={{ minWidth: 200 }}>
-																<FormControl fullWidth>
-																	<InputLabel id="demo-simple-select-label">
-																		指定なし
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="指定なし"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>指定なし</MenuItem>
-																		<MenuItem value={20}>FRONT</MenuItem>
-																		<MenuItem value={10}>SIDE</MenuItem>
-																		<MenuItem value={20}>BACK</MenuItem>
-																		<MenuItem value={10}>ARRANGE</MenuItem>
-																		<MenuItem value={20}>BEFORE</MenuItem>
-																		<MenuItem value={20}>FASHION</MenuItem>
-																	</Select>
-																</FormControl>
-																<div className="flex justify-center items-center pt-5 pb-5">
-																	<img
-																		src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
-																		width={200}
-																		height={200}
-																	/>
-																</div>
-																<div className="flex justify-center items-center">
-																	<Button
-																		component="label"
-																		variant="contained"
-																		startIcon={<CloudUploadIcon />}
-																	>
-																		アップロード
-																		<VisuallyHiddenInput type="file" />
-																	</Button>
-																</div>
-															</Box>
-														</div>
-													</CardContent>
-												</Card>
-											</Box>
-										</div>
-										<div className="flex flex-col justify-center items-center w-full">
-											<Box
-												sx={{ flexGrow: 1 }}
-												className="w-full max-w-5xl pt-12 mx-auto"
-											>
-												<AppBar position="static" className="rounded-t-lg">
-													<Toolbar>
-														{/* <IconButton
+															{/* <MenuIcon className="mr-6" /> */}
+															{/* </IconButton> */}
+															<Typography
+																variant="h6"
+																component="div"
+																sx={{ flexGrow: 1 }}
+															>
+																スタイリストコメント
+															</Typography>
+															{/* <Button color="inherit">Login</Button> */}
+														</Toolbar>
+													</AppBar>
+													<Card className="flex justify-start pl-12 w-full">
+														<CardContent className="rounded-tr-none">
+															<div className="gap-x-16 pb-3 pt-4">
+																<Box sx={{ minWidth: 300 }} className="pb-6">
+																	<Typography className="pb-3">
+																		スタイリスト名
+																	</Typography>
+																	<FormControl className="w-full">
+																		<InputLabel id="demo-simple-select-label">
+																			指定なし
+																		</InputLabel>
+																		<Select
+																			labelId="demo-simple-select-label"
+																			id="demo-simple-select"
+																			value={age}
+																			label="指定なし"
+																			onChange={handleChange}
+																		>
+																			<MenuItem value={10}>TATSUYA</MenuItem>
+																			<MenuItem value={20}>TAKUMI</MenuItem>
+																			<MenuItem value={30}>GOTA</MenuItem>
+																			<MenuItem value={40}>NAOKI</MenuItem>
+																			<MenuItem value={50}>GO 立川</MenuItem>
+																		</Select>
+																	</FormControl>
+																</Box>
+																<Box>
+																	<div className="mb-2 mt-1">
+																		コメント 0/120文字
+																	</div>
+																	<FormGroup className="w-[40rem]">
+																		<Form.Control
+																			name="stylist_comment"
+																			as="textarea"
+																			rows={3}
+																			className="w-full"
+																			onChange={handleChangeTextarea}
+																			value={data.stylist_comment}
+																		/>
+																	</FormGroup>
+																</Box>
+															</div>
+														</CardContent>
+													</Card>
+												</Box>
+											</div>
+											<div className="flex flex-col justify-center items-center w-full">
+												<Box
+													sx={{ flexGrow: 1 }}
+													className="w-full max-w-5xl pt-12 mx-auto"
+												>
+													<AppBar position="static" className="rounded-t-lg">
+														<Toolbar>
+															{/* <IconButton
 															size="large"
 															edge="start"
 															color="inherit"
 															aria-label="menu"
 															sx={{ mr: 2 }}
 														> */}
-														{/* <MenuIcon className="mr-6" /> */}
-														{/* </IconButton> */}
-														<Typography
-															variant="h6"
-															component="div"
-															sx={{ flexGrow: 1 }}
-														>
-															スタイリストコメント
-														</Typography>
-														{/* <Button color="inherit">Login</Button> */}
-													</Toolbar>
-												</AppBar>
-												<Card className="flex justify-start pl-12 w-full">
-													<CardContent className="rounded-tr-none">
-														<div className="gap-x-16 pb-3 pt-4">
-															<Box sx={{ minWidth: 300 }} className="pb-6">
-																<Typography className="pb-3">
-																	スタイリスト名
-																</Typography>
-																<FormControl className="w-full">
-																	<InputLabel id="demo-simple-select-label">
-																		指定なし
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="指定なし"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>TATSUYA</MenuItem>
-																		<MenuItem value={20}>TAKUMI</MenuItem>
-																		<MenuItem value={30}>GOTA</MenuItem>
-																		<MenuItem value={40}>NAOKI</MenuItem>
-																		<MenuItem value={50}>GO 立川</MenuItem>
-																	</Select>
-																</FormControl>
-															</Box>
-															<Box>
-																<div className="mb-2 mt-1">
-																	コメント 0/120文字
-																</div>
-																<FormGroup className="w-[40rem]">
-																	<Form.Control
-																		as="textarea"
-																		rows={3}
-																		className="w-full"
-																	/>
-																</FormGroup>
-															</Box>
-														</div>
-													</CardContent>
-												</Card>
-											</Box>
-										</div>
-										<div className="flex flex-col justify-center items-center w-full">
-											<Box
-												sx={{ flexGrow: 1 }}
-												className="w-full max-w-5xl pt-12 mx-auto"
-											>
-												<AppBar position="static" className="rounded-t-lg">
-													<Toolbar>
-														{/* <IconButton
-															size="large"
-															edge="start"
-															color="inherit"
-															aria-label="menu"
-															sx={{ mr: 2 }}
-														> */}
-														{/* <MenuIcon className="mr-6" /> */}
-														{/* </IconButton> */}
-														<Typography
-															variant="h6"
-															component="div"
-															sx={{ flexGrow: 1 }}
-														>
-															スタイリストコメント
-														</Typography>
-														{/* <Button color="inherit">Login</Button> */}
-													</Toolbar>
-												</AppBar>
-												<Card className="flex justify-start pl-12 w-full">
-													<CardContent className="rounded-tr-none">
-														<div className="gap-x-16 pb-3 pt-4">
-															<Box sx={{ minWidth: 300 }} className="pb-6">
-																<Typography className="pb-3">
-																	スタイル名 0/30文字
-																</Typography>
-																<FormControl className="w-full">
-																	<TextField
-																		id="outlined-basic"
-																		label="スタイル名"
-																		variant="outlined"
-																	/>
-																</FormControl>
-															</Box>
-															<Box sx={{ minWidth: 300 }} className="pb-3">
-																{/* <Typography className="pb-3">
+															{/* <MenuIcon className="mr-6" /> */}
+															{/* </IconButton> */}
+															<Typography
+																variant="h6"
+																component="div"
+																sx={{ flexGrow: 1 }}
+															>
+																スタイル
+															</Typography>
+															{/* <Button color="inherit">Login</Button> */}
+														</Toolbar>
+													</AppBar>
+													<Card className="flex justify-start pl-12 w-full">
+														<CardContent className="rounded-tr-none">
+															<div className="gap-x-16 pb-3 pt-4">
+																<Box sx={{ minWidth: 300 }} className="pb-6">
+																	<Typography className="pb-3">
+																		スタイル名 0/30文字
+																	</Typography>
+																	<FormControl className="w-full">
+																		<TextField
+																			id="outlined-basic"
+																			label="スタイル名"
+																			variant="outlined"
+																			onChange={handleChangeTextarea}
+																			name="style_name"
+																			value={data.style_name}
+																		/>
+																	</FormControl>
+																</Box>
+																<Box sx={{ minWidth: 300 }} className="pb-3">
+																	{/* <Typography className="pb-3">
 																	カテゴリ
 																</Typography> */}
-																<FormControl>
-																	<FormLabel id="demo-radio-buttons-group-label">
-																		カテゴリ
-																	</FormLabel>
-																	<RadioGroup
-																		aria-labelledby="demo-radio-buttons-group-label"
-																		defaultValue="female"
-																		name="radio-buttons-group"
-																	>
+																	<FormControl>
+																		<FormLabel id="demo-radio-buttons-group-label">
+																			カテゴリ
+																		</FormLabel>
+																		<RadioGroup
+																			aria-labelledby="demo-radio-buttons-group-label"
+																			defaultValue="female"
+																			name="radio-buttons-group"
+																		>
+																			<FormControlLabel
+																				value="female"
+																				control={<Radio />}
+																				label="レディース"
+																			/>
+																			<FormControlLabel
+																				value="male"
+																				control={<Radio />}
+																				label="メンズ"
+																			/>
+																		</RadioGroup>
+																	</FormControl>
+																</Box>
+																<Box sx={{ minWidth: 300 }} className="pb-6">
+																	<Typography className="pb-3">長さ</Typography>
+																	<FormControl className="w-full">
+																		<InputLabel id="demo-simple-select-label">
+																			選択してください
+																		</InputLabel>
+																		<Select
+																			labelId="demo-simple-select-label"
+																			id="demo-simple-select"
+																			value={age}
+																			label="選択してください"
+																			onChange={handleChange}
+																		>
+																			<MenuItem value={10}>
+																				ベリーショート
+																			</MenuItem>
+																			<MenuItem value={20}>ショート</MenuItem>
+																			<MenuItem value={30}>ミディアム</MenuItem>
+																			<MenuItem value={40}>セミロング</MenuItem>
+																			<MenuItem value={50}>ロング</MenuItem>
+																			<MenuItem value={60}>ヘアセット</MenuItem>
+																			<MenuItem value={70}>ミセス</MenuItem>
+																		</Select>
+																	</FormControl>
+																</Box>
+																<Box sx={{ minWidth: 300 }} className="pb-6">
+																	<Typography className="pb-3">
+																		カラー
+																	</Typography>
+																	<FormControl className="w-full">
+																		<InputLabel id="demo-simple-select-label">
+																			選択してください
+																		</InputLabel>
+																		<Select
+																			labelId="demo-simple-select-label"
+																			id="demo-simple-select"
+																			value={age}
+																			label="選択してください"
+																			onChange={handleChange}
+																		>
+																			<MenuItem value={10}>
+																				ブラウン・ベージュ系
+																			</MenuItem>
+																			<MenuItem value={20}>
+																				イエロー・オレンジ系
+																			</MenuItem>
+																			<MenuItem value={30}>
+																				レッド・ピンク系
+																			</MenuItem>
+																			<MenuItem value={40}>
+																				アッシュ・ブラック系
+																			</MenuItem>
+																			<MenuItem value={50}>
+																				その他カラー
+																			</MenuItem>
+																		</Select>
+																	</FormControl>
+																</Box>
+																<Box sx={{ minWidth: 300 }} className="pb-6">
+																	<Typography className="pb-3">
+																		イメージ
+																	</Typography>
+																	<FormControl className="w-full">
+																		<InputLabel id="demo-simple-select-label">
+																			選択してください
+																		</InputLabel>
+																		<Select
+																			labelId="demo-simple-select-label"
+																			id="demo-simple-select"
+																			value={age}
+																			label="選択してください"
+																			onChange={handleChange}
+																		>
+																			<MenuItem value={10}>ナチュラル</MenuItem>
+																			<MenuItem value={20}>
+																				オフィス・コンサバ
+																			</MenuItem>
+																			<MenuItem value={30}>
+																				モテ・愛され
+																			</MenuItem>
+																			<MenuItem value={40}>ギャル</MenuItem>
+																			<MenuItem value={50}>
+																				カジュアル・ストリート
+																			</MenuItem>
+																			<MenuItem value={60}>
+																				ティーンズ・ガーリー
+																			</MenuItem>
+																		</Select>
+																	</FormControl>
+																</Box>
+																<Box sx={{ minWidth: 300 }} className="pb-6">
+																	<Typography className="pb-3">
+																		メニュー内容0/50文字
+																	</Typography>
+																	<FormGroup>
 																		<FormControlLabel
-																			value="female"
-																			control={<Radio />}
-																			label="レディース"
+																			required
+																			control={<Checkbox />}
+																			label="パーマ"
 																		/>
 																		<FormControlLabel
-																			value="male"
-																			control={<Radio />}
-																			label="メンズ"
+																			required
+																			control={<Checkbox />}
+																			label="ストレートパーマ・縮毛矯正"
 																		/>
-																	</RadioGroup>
-																</FormControl>
-															</Box>
-															<Box sx={{ minWidth: 300 }} className="pb-6">
-																<Typography className="pb-3">長さ</Typography>
-																<FormControl className="w-full">
-																	<InputLabel id="demo-simple-select-label">
-																		選択してください
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="選択してください"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>
-																			ベリーショート
-																		</MenuItem>
-																		<MenuItem value={20}>ショート</MenuItem>
-																		<MenuItem value={30}>ミディアム</MenuItem>
-																		<MenuItem value={40}>セミロング</MenuItem>
-																		<MenuItem value={50}>ロング</MenuItem>
-																		<MenuItem value={60}>ヘアセット</MenuItem>
-																		<MenuItem value={70}>ミセス</MenuItem>
-																	</Select>
-																</FormControl>
-															</Box>
-															<Box sx={{ minWidth: 300 }} className="pb-6">
-																<Typography className="pb-3">カラー</Typography>
-																<FormControl className="w-full">
-																	<InputLabel id="demo-simple-select-label">
-																		選択してください
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="選択してください"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>
-																			ブラウン・ベージュ系
-																		</MenuItem>
-																		<MenuItem value={20}>
-																			イエロー・オレンジ系
-																		</MenuItem>
-																		<MenuItem value={30}>
-																			レッド・ピンク系
-																		</MenuItem>
-																		<MenuItem value={40}>
-																			アッシュ・ブラック系
-																		</MenuItem>
-																		<MenuItem value={50}>その他カラー</MenuItem>
-																	</Select>
-																</FormControl>
-															</Box>
-															<Box sx={{ minWidth: 300 }} className="pb-6">
-																<Typography className="pb-3">
-																	イメージ
-																</Typography>
-																<FormControl className="w-full">
-																	<InputLabel id="demo-simple-select-label">
-																		選択してください
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="選択してください"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>ナチュラル</MenuItem>
-																		<MenuItem value={20}>
-																			オフィス・コンサバ
-																		</MenuItem>
-																		<MenuItem value={30}>モテ・愛され</MenuItem>
-																		<MenuItem value={40}>ギャル</MenuItem>
-																		<MenuItem value={50}>
-																			カジュアル・ストリート
-																		</MenuItem>
-																		<MenuItem value={60}>
-																			ティーンズ・ガーリー
-																		</MenuItem>
-																	</Select>
-																</FormControl>
-															</Box>
-															<Box sx={{ minWidth: 300 }} className="pb-6">
-																<Typography className="pb-3">
-																	メニュー内容0/50文字
-																</Typography>
-																<FormGroup>
-																	<FormControlLabel
-																		required
-																		control={<Checkbox />}
-																		label="パーマ"
-																	/>
-																	<FormControlLabel
-																		required
-																		control={<Checkbox />}
-																		label="ストレートパーマ・縮毛矯正"
-																	/>
-																	<FormControlLabel
-																		required
-																		control={<Checkbox />}
-																		label="エクステ"
-																	/>
-																</FormGroup>
-															</Box>
-															<Box>
-																<FormGroup className="w-[40rem]">
-																	<Form.Control
-																		as="textarea"
-																		rows={3}
-																		className="w-full"
-																	/>
-																</FormGroup>
-															</Box>
-															<Box sx={{ minWidth: 300 }} className="pb-6">
-																<Typography className="pb-3 pt-6">
-																	クーポン
-																</Typography>
-																<FormControl className="w-full">
-																	<InputLabel id="demo-simple-select-label">
-																		なし
-																	</InputLabel>
-																	<Select
-																		labelId="demo-simple-select-label"
-																		id="demo-simple-select"
-																		value={age}
-																		label="なし"
-																		onChange={handleChange}
-																	>
-																		<MenuItem value={10}>なし</MenuItem>
-																		<MenuItem value={20}>
-																			平日限定【メンズ】カット¥4000[メンズカット/メンズ/フェード/立川]
-																		</MenuItem>
-																		<MenuItem value={30}>
-																			平日限定【メンズ】カット+クイックスパ¥5000
-																			[メンズカット/立川/眉毛]
-																		</MenuItem>
-																		<MenuItem value={40}>
-																			平日限定【メンズ】カット+ニュアンスパーマ¥10000[メンズ/フェード/立川]
-																		</MenuItem>
-																		<MenuItem value={50}>
-																			平日限定【メンズ】カット+ツイストスパイラルパーマ¥11500[メンズ/立川]
-																		</MenuItem>
-																		<MenuItem value={60}>
-																			平日限定【メンズ】カット+波巻きスパイラルパーマ¥12500[メンズ/眉毛/立川]
-																		</MenuItem>
-																		<MenuItem value={70}>
-																			平日限定【メンズ】カット+カラー¥10000[メンズカット/フェード/立川/眉毛]
-																		</MenuItem>
-																		<MenuItem value={80}>
-																			【メンズ】カット¥4500[メンズカット/センターパート/立川]
-																		</MenuItem>
-																		<MenuItem value={90}>
-																			【メンズ】刈り上げメンテナンスカット¥2500【メンズ/立川】
-																		</MenuItem>
-																		<MenuItem value={100}>
-																			【メンズ】カット+眉毛カット¥5500[メンズカット//立川/眉毛]
-																		</MenuItem>
-																		<MenuItem value={110}>
-																			【メンズ】カット+ニュアンスパーマ¥10500[メンズパーマ/フェード/立川]
-																		</MenuItem>
-																		<MenuItem value={120}>
-																			【メンズ】カット+ツイストスパイラルパーマ¥12500[メンズ/ツイストパーマ]
-																		</MenuItem>
-																		<MenuItem value={130}>
-																			【メンズ】カット+波巻きスパイラルパーマ¥13500[メンズ/メンズパーマ/立川]
-																		</MenuItem>
-																		<MenuItem value={140}>
-																			期間限定 学割U24【メンズ】
-																			カット+眉毛カット¥3800[メンズ/立川]
-																		</MenuItem>
-																		<MenuItem value={150}>
-																			学割U24【メンズ】カット¥3800[メンズカット/メンズ/フェード/立川]
-																		</MenuItem>
-																		<MenuItem value={160}>
-																			【メンズ】カット+炭酸ヘッドスパ¥6000[メンズカット/センターパート/立川]
-																		</MenuItem>
-																		<MenuItem value={170}>
-																			学割U24【メンズ】カット+ニュアンスパーマ¥9500[メンズカット/フェード]
-																		</MenuItem>
-																		<MenuItem value={180}>
-																			【メンズ】カット+ポイントパーマ¥9500[メンズパーマ/センターパート/立川]
-																		</MenuItem>
-																		<MenuItem value={190}>
-																			【メンズ】カット+ニュアンスパーマ+トリートメント¥12000[メンズ/立川]
-																		</MenuItem>
-																		<MenuItem value={200}>
-																			【TAKUMI指名】U24カット+ツイストスパイラルパーマor波巻パーマ+眉カット
-																		</MenuItem>
-																		<MenuItem value={210}>
-																			【メンズ】カット+ツイストスパイラル+トリートメント¥14000[メンズ/立川]
-																		</MenuItem>
-																		<MenuItem value={220}>
-																			【メンズ】カット+波巻きスパイラルパーマ+トリートメント¥15000[立川/眉毛]
-																		</MenuItem>
-																		<MenuItem value={230}>
-																			【GOTA指名】カット+ケアパーマ
-																			¥1,2000(立川/ケアパーマ/ブリーチパーマ)
-																		</MenuItem>
-																		<MenuItem value={240}>
-																			【メンズ】カット+ダウンパーマ¥10500[メンズパーマ/センターパート/立川]
-																		</MenuItem>
-																		<MenuItem value={250}>
-																			【メンズ】カット+縮毛ストレート+トリートメント¥17300[メンズ/立川/眉毛]
-																		</MenuItem>
-																		<MenuItem value={260}>
-																			【メンズ】ワンカラー¥6000[メンズパーマ/ツイストスパイラルパーマ/立川]
-																		</MenuItem>
-																		<MenuItem value={270}>
-																			【メンズ】ダブルカラー¥13000[メンズパーマ/ツイストスパイラルパーマ/立川]
-																		</MenuItem>
-																		<MenuItem value={280}>
-																			【メンズ】ダブルカラー+トリートメント¥15500[メンズパーマ/フェード/立川]
-																		</MenuItem>
-																		<MenuItem value={290}>
-																			【メンズ】メッシュキャップハイライト¥13000~[メンズカット/フェード/立川]
-																		</MenuItem>
-																		<MenuItem value={300}>
-																			【メンズ】カット+カラー¥10500[メンズカット/ツイストパーマ/フェード/立川]
-																		</MenuItem>
-																		<MenuItem value={310}>
-																			学割U24
-																			【メンズ】カット+カラー¥9500[メンズカット/フェード/立川/眉毛]
-																		</MenuItem>
-																		<MenuItem value={320}>
-																			【メンズ】カット+カラー+パーマ¥16000[メンズカット/立川/眉毛]
-																		</MenuItem>
-																		<MenuItem value={330}>
-																			【メンズ】カット+ダブルカラー+トリートメント¥18300[メンズカット/立川]
-																		</MenuItem>
-																		<MenuItem value={340}>
-																			【メンズ】カット+メッシュキャップ+トリートメント¥17800[メンズ/眉毛/立川]
-																		</MenuItem>
-																		<MenuItem value={350}>
-																			【メンズ】トリートメント¥2500~[メンズ/メンズパーマ/センターパート/立川]
-																		</MenuItem>
-																		<MenuItem value={360}>
-																			【2回目限定】平日限定カット￥4000
-																			[メンズパーマ/センターパート/立川]
-																		</MenuItem>
-																		<MenuItem value={370}>
-																			【2回目の方限定】カット+眉毛カット5500
-																			/メンズパーマ/眉毛/立川]
-																		</MenuItem>
-																		<MenuItem value={380}>
-																			【2回目の方限定】カット￥4500
-																			[メンズサロン/メンズパーマ/立川]
-																		</MenuItem>
-																		<MenuItem value={390}>
-																			【TAKUMI】U24
-																			2回目カット+ツイストスパイラルor波巻パーマ+眉カット
-																		</MenuItem>
-																		<MenuItem value={400}>
-																			【2回目の方限定】カット+ヘッドスパ￥6000
-																			[メンズパーマ/眉毛/立川]
-																		</MenuItem>
-																		<MenuItem value={410}>
-																			【2回目の方限定】カット+ニュアンスパーマ￥10500
-																			[メンズカット/立川]
-																		</MenuItem>
-																		<MenuItem value={420}>
-																			2回目の方限定】カット+ツイストスパイラルパーマ￥12500
-																			[立川]
-																		</MenuItem>
-																		<MenuItem value={430}>
-																			【2回目の方限定】カット+波巻きスパイラルパーマ￥13500[立川]
-																		</MenuItem>
-																		<MenuItem value={440}>
-																			【GOTA指名】2回目
-																			カット+ケアパーマ(立川/ケアパーマ/ブリーチパーマ)
-																		</MenuItem>
-																		<MenuItem value={450}>
-																			【2回目の方限定】カット+カラー￥10500
-																			[立川/眉毛/メンズカット]
-																		</MenuItem>
-																		<MenuItem value={460}>
-																			【2回目の方限定】カット+ダブルカラー+トリートメント￥18,300[立川]
-																		</MenuItem>
-																	</Select>
-																</FormControl>
-															</Box>
-														</div>
-													</CardContent>
-												</Card>
-											</Box>
-										</div>
-										<div className="flex flex-col justify-center items-center w-full">
-											<Box
-												sx={{ flexGrow: 1 }}
-												className="w-full max-w-5xl pt-12 mx-auto"
-											>
-												<AppBar position="static" className="rounded-t-lg">
-													<Toolbar>
-														{/* <IconButton
+																		<FormControlLabel
+																			required
+																			control={<Checkbox />}
+																			label="エクステ"
+																		/>
+																	</FormGroup>
+																</Box>
+																<Box>
+																	<FormGroup className="w-[40rem]">
+																		<Form.Control
+																			as="textarea"
+																			rows={3}
+																			className="w-full"
+																		/>
+																	</FormGroup>
+																</Box>
+																<Box sx={{ minWidth: 300 }} className="pb-6">
+																	<Typography className="pb-3 pt-6">
+																		クーポン
+																	</Typography>
+																	<FormControl className="w-full">
+																		<InputLabel id="demo-simple-select-label">
+																			なし
+																		</InputLabel>
+																		<Select
+																			labelId="demo-simple-select-label"
+																			id="demo-simple-select"
+																			value={age}
+																			label="なし"
+																			onChange={handleChange}
+																		>
+																			<MenuItem value={10}>なし</MenuItem>
+																			<MenuItem value={20}>
+																				平日限定【メンズ】カット¥4000[メンズカット/メンズ/フェード/立川]
+																			</MenuItem>
+																			<MenuItem value={30}>
+																				平日限定【メンズ】カット+クイックスパ¥5000
+																				[メンズカット/立川/眉毛]
+																			</MenuItem>
+																			<MenuItem value={40}>
+																				平日限定【メンズ】カット+ニュアンスパーマ¥10000[メンズ/フェード/立川]
+																			</MenuItem>
+																			<MenuItem value={50}>
+																				平日限定【メンズ】カット+ツイストスパイラルパーマ¥11500[メンズ/立川]
+																			</MenuItem>
+																			<MenuItem value={60}>
+																				平日限定【メンズ】カット+波巻きスパイラルパーマ¥12500[メンズ/眉毛/立川]
+																			</MenuItem>
+																			<MenuItem value={70}>
+																				平日限定【メンズ】カット+カラー¥10000[メンズカット/フェード/立川/眉毛]
+																			</MenuItem>
+																			<MenuItem value={80}>
+																				【メンズ】カット¥4500[メンズカット/センターパート/立川]
+																			</MenuItem>
+																			<MenuItem value={90}>
+																				【メンズ】刈り上げメンテナンスカット¥2500【メンズ/立川】
+																			</MenuItem>
+																			<MenuItem value={100}>
+																				【メンズ】カット+眉毛カット¥5500[メンズカット//立川/眉毛]
+																			</MenuItem>
+																			<MenuItem value={110}>
+																				【メンズ】カット+ニュアンスパーマ¥10500[メンズパーマ/フェード/立川]
+																			</MenuItem>
+																			<MenuItem value={120}>
+																				【メンズ】カット+ツイストスパイラルパーマ¥12500[メンズ/ツイストパーマ]
+																			</MenuItem>
+																			<MenuItem value={130}>
+																				【メンズ】カット+波巻きスパイラルパーマ¥13500[メンズ/メンズパーマ/立川]
+																			</MenuItem>
+																			<MenuItem value={140}>
+																				期間限定 学割U24【メンズ】
+																				カット+眉毛カット¥3800[メンズ/立川]
+																			</MenuItem>
+																			<MenuItem value={150}>
+																				学割U24【メンズ】カット¥3800[メンズカット/メンズ/フェード/立川]
+																			</MenuItem>
+																			<MenuItem value={160}>
+																				【メンズ】カット+炭酸ヘッドスパ¥6000[メンズカット/センターパート/立川]
+																			</MenuItem>
+																			<MenuItem value={170}>
+																				学割U24【メンズ】カット+ニュアンスパーマ¥9500[メンズカット/フェード]
+																			</MenuItem>
+																			<MenuItem value={180}>
+																				【メンズ】カット+ポイントパーマ¥9500[メンズパーマ/センターパート/立川]
+																			</MenuItem>
+																			<MenuItem value={190}>
+																				【メンズ】カット+ニュアンスパーマ+トリートメント¥12000[メンズ/立川]
+																			</MenuItem>
+																			<MenuItem value={200}>
+																				【TAKUMI指名】U24カット+ツイストスパイラルパーマor波巻パーマ+眉カット
+																			</MenuItem>
+																			<MenuItem value={210}>
+																				【メンズ】カット+ツイストスパイラル+トリートメント¥14000[メンズ/立川]
+																			</MenuItem>
+																			<MenuItem value={220}>
+																				【メンズ】カット+波巻きスパイラルパーマ+トリートメント¥15000[立川/眉毛]
+																			</MenuItem>
+																			<MenuItem value={230}>
+																				【GOTA指名】カット+ケアパーマ
+																				¥1,2000(立川/ケアパーマ/ブリーチパーマ)
+																			</MenuItem>
+																			<MenuItem value={240}>
+																				【メンズ】カット+ダウンパーマ¥10500[メンズパーマ/センターパート/立川]
+																			</MenuItem>
+																			<MenuItem value={250}>
+																				【メンズ】カット+縮毛ストレート+トリートメント¥17300[メンズ/立川/眉毛]
+																			</MenuItem>
+																			<MenuItem value={260}>
+																				【メンズ】ワンカラー¥6000[メンズパーマ/ツイストスパイラルパーマ/立川]
+																			</MenuItem>
+																			<MenuItem value={270}>
+																				【メンズ】ダブルカラー¥13000[メンズパーマ/ツイストスパイラルパーマ/立川]
+																			</MenuItem>
+																			<MenuItem value={280}>
+																				【メンズ】ダブルカラー+トリートメント¥15500[メンズパーマ/フェード/立川]
+																			</MenuItem>
+																			<MenuItem value={290}>
+																				【メンズ】メッシュキャップハイライト¥13000~[メンズカット/フェード/立川]
+																			</MenuItem>
+																			<MenuItem value={300}>
+																				【メンズ】カット+カラー¥10500[メンズカット/ツイストパーマ/フェード/立川]
+																			</MenuItem>
+																			<MenuItem value={310}>
+																				学割U24
+																				【メンズ】カット+カラー¥9500[メンズカット/フェード/立川/眉毛]
+																			</MenuItem>
+																			<MenuItem value={320}>
+																				【メンズ】カット+カラー+パーマ¥16000[メンズカット/立川/眉毛]
+																			</MenuItem>
+																			<MenuItem value={330}>
+																				【メンズ】カット+ダブルカラー+トリートメント¥18300[メンズカット/立川]
+																			</MenuItem>
+																			<MenuItem value={340}>
+																				【メンズ】カット+メッシュキャップ+トリートメント¥17800[メンズ/眉毛/立川]
+																			</MenuItem>
+																			<MenuItem value={350}>
+																				【メンズ】トリートメント¥2500~[メンズ/メンズパーマ/センターパート/立川]
+																			</MenuItem>
+																			<MenuItem value={360}>
+																				【2回目限定】平日限定カット￥4000
+																				[メンズパーマ/センターパート/立川]
+																			</MenuItem>
+																			<MenuItem value={370}>
+																				【2回目の方限定】カット+眉毛カット5500
+																				/メンズパーマ/眉毛/立川】
+																			</MenuItem>
+																			<MenuItem value={380}>
+																				【2回目の方限定】カット￥4500
+																				[メンズサロン/メンズパーマ/立川]
+																			</MenuItem>
+																			<MenuItem value={390}>
+																				【TAKUMI】U24
+																				2回目カット+ツイストスパイラルor波巻パーマ+眉カット
+																			</MenuItem>
+																			<MenuItem value={400}>
+																				【2回目の方限定】カット+ヘッドスパ￥6000
+																				[メンズパーマ/眉毛/立川]
+																			</MenuItem>
+																			<MenuItem value={410}>
+																				【2回目の方限定】カット+ニュアンスパーマ￥10500
+																				[メンズカット/立川]
+																			</MenuItem>
+																			<MenuItem value={420}>
+																				2回目の方限定】カット+ツイストスパイラルパーマ￥12500
+																				[立川]
+																			</MenuItem>
+																			<MenuItem value={430}>
+																				【2回目の方限定】カット+波巻きスパイラルパーマ￥13500[立川]
+																			</MenuItem>
+																			<MenuItem value={440}>
+																				【GOTA指名】2回目
+																				カット+ケアパーマ(立川/ケアパーマ/ブリーチパーマ)
+																			</MenuItem>
+																			<MenuItem value={450}>
+																				【2回目の方限定】カット+カラー￥10500
+																				[立川/眉毛/メンズカット]
+																			</MenuItem>
+																			<MenuItem value={460}>
+																				【2回目の方限定】カット+ダブルカラー+トリートメント￥18,300[立川]
+																			</MenuItem>
+																		</Select>
+																	</FormControl>
+																</Box>
+															</div>
+														</CardContent>
+													</Card>
+												</Box>
+											</div>
+											<div className="flex flex-col justify-center items-center w-full">
+												<Box
+													sx={{ flexGrow: 1 }}
+													className="w-full max-w-5xl pt-12 mx-auto"
+												>
+													<AppBar position="static" className="rounded-t-lg">
+														<Toolbar>
+															{/* <IconButton
 															size="large"
 															edge="start"
 															color="inherit"
 															aria-label="menu"
 															sx={{ mr: 2 }}
 														> */}
-														{/* <MenuIcon className="mr-6" /> */}
-														{/* </IconButton> */}
-														<Typography
-															variant="h6"
-															component="div"
-															sx={{ flexGrow: 1 }}
-														>
-															おすすめタイプ
-														</Typography>
-														{/* <Button color="inherit">Login</Button> */}
-													</Toolbar>
-												</AppBar>
-												<Card className="flex justify-start pl-12 w-full">
-													<CardContent className="rounded-tr-none">
-														<div className="gap-x-16 pb-3 pt-4">
-															<Box>
-																<div>
-																	<div className="pl-2 pt-4 pb-2">
-																		<Typography
-																			variant="h7"
-																			className="font-medium"
-																		>
-																			髪量
-																		</Typography>
-																	</div>
-																	<div className="flex gap-x-12">
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked1}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">
-																				少ない
+															{/* <MenuIcon className="mr-6" /> */}
+															{/* </IconButton> */}
+															<Typography
+																variant="h6"
+																component="div"
+																sx={{ flexGrow: 1 }}
+															>
+																おすすめタイプ
+															</Typography>
+															{/* <Button color="inherit">Login</Button> */}
+														</Toolbar>
+													</AppBar>
+													<Card className="flex justify-start pl-12 w-full">
+														<CardContent className="rounded-tr-none">
+															<div className="gap-x-16 pb-3 pt-4">
+																<Box>
+																	<div>
+																		<div className="pl-2 pt-4 pb-2">
+																			<Typography
+																				variant="h7"
+																				className="font-medium"
+																			>
+																				髪量
 																			</Typography>
 																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked2}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">普通</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked3}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">多い</Typography>
+																		<div className="flex gap-x-12">
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked1}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					少ない
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked2}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					普通
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked3}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					多い
+																				</Typography>
+																			</div>
 																		</div>
 																	</div>
-																</div>
-																<div>
-																	<div className="pl-2 pt-4 pb-2">
-																		<Typography
-																			variant="h7"
-																			className="font-medium"
-																		>
-																			髪質
-																		</Typography>
-																	</div>
-																	<div className="flex">
-																		<div className="flex justify-center items-center pr-8">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked1}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">
-																				柔らかい
+																	<div>
+																		<div className="pl-2 pt-4 pb-2">
+																			<Typography
+																				variant="h7"
+																				className="font-medium"
+																			>
+																				髪質
 																			</Typography>
 																		</div>
-																		<div className="flex justify-center items-center pr-12">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked2}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">普通</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked3}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">硬い</Typography>
-																		</div>
-																	</div>
-																</div>
-																<div>
-																	<div className="pl-2 pt-4 pb-2">
-																		<Typography
-																			variant="h7"
-																			className="font-medium"
-																		>
-																			太さ
-																		</Typography>
-																	</div>
-																	<div className="flex gap-x-12">
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked1}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">細い</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked2}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">普通</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked3}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">太い</Typography>
+																		<div className="flex">
+																			<div className="flex justify-center items-center pr-8">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked1}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					柔らかい
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center pr-12">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked2}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					普通
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked3}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					硬い
+																				</Typography>
+																			</div>
 																		</div>
 																	</div>
-																</div>
-																<div>
-																	<div className="pl-2 pt-4 pb-2">
-																		<Typography
-																			variant="h7"
-																			className="font-medium"
-																		>
-																			クセ
-																		</Typography>
-																	</div>
-																	<div className="flex gap-x-12">
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked1}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">なし</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked2}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">少し</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked3}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">強い</Typography>
-																		</div>
-																	</div>
-																</div>
-																<div>
-																	<div className="pl-2 pt-4 pb-2">
-																		<Typography
-																			variant="h7"
-																			className="font-medium"
-																		>
-																			顔型
-																		</Typography>
-																	</div>
-																	<div className="flex gap-x-12">
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked1}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">丸型</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked2}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">
-																				逆三角
+																	<div>
+																		<div className="pl-2 pt-4 pb-2">
+																			<Typography
+																				variant="h7"
+																				className="font-medium"
+																			>
+																				太さ
 																			</Typography>
 																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked3}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">卵型</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked3}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">
-																				ベース
-																			</Typography>
-																		</div>
-																		<div className="flex justify-center items-center">
-																			<Checkbox
-																				checked={checked}
-																				onChange={handleChange_checked3}
-																				inputProps={{
-																					"aria-label": "controlled",
-																				}}
-																			/>
-																			<Typography variant="h7">四角</Typography>
+																		<div className="flex gap-x-12">
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked1}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					細い
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked2}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					普通
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked3}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					太い
+																				</Typography>
+																			</div>
 																		</div>
 																	</div>
-																</div>
-															</Box>
-														</div>
-													</CardContent>
-												</Card>
-											</Box>
-										</div>
-										<div className="flex flex-col justify-center items-center w-full pb-8">
-											<Box
-												sx={{ flexGrow: 1 }}
-												className="w-full max-w-5xl pt-12 mx-auto"
-											>
-												<AppBar position="static" className="rounded-t-lg">
-													<Toolbar>
-														{/* <IconButton
+																	<div>
+																		<div className="pl-2 pt-4 pb-2">
+																			<Typography
+																				variant="h7"
+																				className="font-medium"
+																			>
+																				クセ
+																			</Typography>
+																		</div>
+																		<div className="flex gap-x-12">
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked1}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					なし
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked2}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					少し
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked3}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					強い
+																				</Typography>
+																			</div>
+																		</div>
+																	</div>
+																	<div>
+																		<div className="pl-2 pt-4 pb-2">
+																			<Typography
+																				variant="h7"
+																				className="font-medium"
+																			>
+																				顔型
+																			</Typography>
+																		</div>
+																		<div className="flex gap-x-12">
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked1}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					丸型
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked2}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					逆三角
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked3}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					卵型
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked3}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					ベース
+																				</Typography>
+																			</div>
+																			<div className="flex justify-center items-center">
+																				<Checkbox
+																					checked={checked}
+																					onChange={handleChange_checked3}
+																					inputProps={{
+																						"aria-label": "controlled",
+																					}}
+																				/>
+																				<Typography variant="h7">
+																					四角
+																				</Typography>
+																			</div>
+																		</div>
+																	</div>
+																</Box>
+															</div>
+														</CardContent>
+													</Card>
+												</Box>
+											</div>
+											<div className="flex flex-col justify-center items-center w-full pb-8">
+												<Box
+													sx={{ flexGrow: 1 }}
+													className="w-full max-w-5xl pt-12 mx-auto"
+												>
+													<AppBar position="static" className="rounded-t-lg">
+														<Toolbar>
+															{/* <IconButton
 															size="large"
 															edge="start"
 															color="inherit"
 															aria-label="menu"
 															sx={{ mr: 2 }}
 														> */}
-														{/* <MenuIcon className="mr-6" /> */}
-														{/* </IconButton> */}
-														<Typography
-															variant="h6"
-															component="div"
-															sx={{ flexGrow: 1 }}
-														>
-															スタイリング・アレンジポイント
-														</Typography>
-														{/* <Button color="inherit">Login</Button> */}
-													</Toolbar>
-												</AppBar>
-												<Card className="flex justify-start pl-12 w-full">
-													<CardContent className="rounded-tr-none">
-														<div className="gap-x-16 pb-3 pt-4">
-															<Box>
-																<div className="mb-2 mt-1">
-																	ポイント 0/120文字
-																</div>
-																<FormGroup className="w-[40rem]">
-																	<Form.Control
-																		as="textarea"
-																		rows={3}
-																		className="w-full"
-																	/>
-																</FormGroup>
-															</Box>
-														</div>
-													</CardContent>
-												</Card>
-											</Box>
-										</div>
-										<div className="flex justify-center mt-6 mb-24">
-											<Box>
-												<Button variant="contained" className="w-96 py-2">
-													追加
-												</Button>
-											</Box>
-										</div>
+															{/* <MenuIcon className="mr-6" /> */}
+															{/* </IconButton> */}
+															<Typography
+																variant="h6"
+																component="div"
+																sx={{ flexGrow: 1 }}
+															>
+																スタイリング・アレンジポイント
+															</Typography>
+															{/* <Button color="inherit">Login</Button> */}
+														</Toolbar>
+													</AppBar>
+													<Card className="flex justify-start pl-12 w-full">
+														<CardContent className="rounded-tr-none">
+															<div className="gap-x-16 pb-3 pt-4">
+																<Box>
+																	<div className="mb-2 mt-1">
+																		ポイント 0/120文字
+																	</div>
+																	<FormGroup className="w-[40rem]">
+																		<Form.Control
+																			as="textarea"
+																			rows={3}
+																			className="w-full"
+																			onChange={handleChangeTextarea}
+																			name="styling_arrangement_point"
+																			value={data.styling_arrangement_point}
+																		/>
+																	</FormGroup>
+																</Box>
+															</div>
+														</CardContent>
+													</Card>
+												</Box>
+											</div>
+											<div className="flex justify-center mt-6 mb-24">
+												<Box>
+													<Button
+														variant="contained"
+														className="w-96 py-2"
+														type="submit"
+													>
+														追加
+													</Button>
+												</Box>
+											</div>
+										</form>
 									</div>
 								</Tab>
 								<Tab eventKey="profile" title="テンプレート">

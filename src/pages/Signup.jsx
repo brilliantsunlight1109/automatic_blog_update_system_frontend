@@ -7,11 +7,24 @@ const Signup = () => {
 	const navigate = useNavigate();
 	const [inputValue, setInputValue] = useState({
 		email: "",
+		username: "",
+		id: "",
 		password: "",
 		confirm_password: "",
-		username: "",
+		salon_id: "",
+		salon_password: "",
+		salon_confirm_password: "",
 	});
-	const { email, password, username, confirm_password } = inputValue;
+	const {
+		email,
+		password,
+		username,
+		confirm_password,
+		id,
+		salon_id,
+		salon_password,
+		salon_confirm_password,
+	} = inputValue;
 	const [alarm, setAlarm] = useState("");
 	const handleOnChange = (e) => {
 		const { name, value } = e.target;
@@ -52,13 +65,6 @@ const Signup = () => {
 		} catch (error) {
 			console.log(error);
 		}
-		// setInputValue({
-		// 	...inputValue,
-		// 	email: "",
-		// 	password: "",
-		// 	confirm_password: "",
-		// 	username: "",
-		// });
 	};
 
 	return (
@@ -118,6 +124,25 @@ const Signup = () => {
 						</div>
 
 						<div>
+							<label
+								htmlFor="email"
+								className="block text-md font-bold leading-6 text-gray-900"
+							>
+								ID
+							</label>
+							<div className="mt-2">
+								<input
+									name="id"
+									type="text"
+									value={id}
+									placeholder="例: abc123"
+									onChange={handleOnChange}
+									className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+								/>
+							</div>
+						</div>
+
+						<div>
 							<div className="flex items-center justify-between">
 								<label
 									htmlFor="email"
@@ -161,6 +186,68 @@ const Signup = () => {
 						</div>
 
 						<div>
+							<label
+								htmlFor="email"
+								className="block text-md font-bold leading-6 text-gray-900"
+							>
+								Salon Board ID
+							</label>
+							<div className="mt-2">
+								<input
+									name="salon_id"
+									type="text"
+									value={salon_id}
+									placeholder="例: abc123"
+									onChange={handleOnChange}
+									className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+								/>
+							</div>
+						</div>
+
+						<div>
+							<div className="flex items-center justify-between">
+								<label
+									htmlFor="email"
+									className="block text-md font-bold leading-6 text-gray-900"
+								>
+									Salon Board パスワード
+								</label>
+							</div>
+							<div className="mt-2">
+								<input
+									id="password"
+									name="salon_password"
+									type="password"
+									placeholder="例: 1234567890"
+									value={salon_password}
+									onChange={handleOnChange}
+									className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+								/>
+							</div>
+						</div>
+						<div>
+							<div className="flex items-center justify-between">
+								<label
+									htmlFor="email"
+									className="block text-md font-bold leading-6 text-gray-900"
+								>
+									Salon Board パスワード確認
+								</label>
+							</div>
+							<div className="mt-2">
+								<input
+									id="confirm_password"
+									name="salon_confirm_password"
+									type="password"
+									placeholder="例: 1234567890"
+									value={salon_confirm_password}
+									onChange={handleOnChange}
+									className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+								/>
+							</div>
+						</div>
+
+						<div>
 							<button
 								type="submit"
 								className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -169,6 +256,17 @@ const Signup = () => {
 							</button>
 						</div>
 					</form>
+
+					<div>
+						<p className="mt-10 text-center text-sm text-violet-600">
+							<a
+								href="/"
+								className="font-semibold leading-6 text-violet-600 hover:text-violet-500"
+							>
+								ログインに移行
+							</a>
+						</p>
+					</div>
 
 					<p className="mt-10 text-center text-sm text-red-600">
 						<a className="font-semibold leading-6 text-red-600 hover:text-red-500">

@@ -40,6 +40,34 @@ function classNames(...classes) {
 
 const Style = () => {
 	const navigate = useNavigate();
+	const [style, setStyle] = useState([]);
+
+	// useEffect(() => {
+	// 	axios
+	// 		.get("http://localhost:4000/api/style")
+	// 		.then((res) => {
+	// 			// console.log(res.data);
+	// 			setStyle(res.data);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// }, []);
+	// // console.log(style);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get("http://localhost:4000/api/style");
+				// console.log(response.data);
+				setStyle(response.data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		fetchData();
+	}, []);
 
 	//switch
 	const [state, setState] = useState({
@@ -70,6 +98,7 @@ const Style = () => {
 			[event.target.name]: event.target.checked,
 		});
 	};
+	//
 
 	//select
 	const [age, setAge] = useState("");
@@ -82,7 +111,7 @@ const Style = () => {
 		{
 			field: "image",
 			headerName: "写真",
-			width: 140,
+			width: 160,
 			renderCell: (params) => (
 				<img
 					src={params.row.image}
@@ -92,207 +121,126 @@ const Style = () => {
 				/>
 			),
 		},
-		{ field: "style_name", headerName: "スタイル名", type: "text", width: 160 },
 		{
-			field: "stylelist",
+			field: "style_name",
+			headerName: "スタイル名",
+			type: "text",
+			width: 160,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
+		},
+		{
+			field: "stylist",
 			headerName: "スタイリスト",
 			type: "text",
-			width: 100,
+			width: 120,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
-		{ field: "coupon", headerName: "クーポン", type: "text", width: 80 },
 		{
-			field: "original_ID",
-			headerName: "オリジナルID/コピーID ",
+			field: "coupon",
+			headerName: "クーポン",
 			type: "text",
-			width: 250,
+			width: 500,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
 		{
 			field: "Sync_start_date",
-			headerName: "同期開始日/同期停止日",
+			headerName: "同期開始日",
 			type: "text",
-			width: 250,
+			width: 140,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
+		{
+			field: "Sync_end_date",
+			headerName: "同期停止日",
+			type: "text",
+			width: 140,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
+		},
+
 		{
 			field: "Sync_start_time",
-			headerName: "同期開始時間/同期間隔",
+			headerName: "同期開始時間",
 			type: "text",
-			width: 250,
+			width: 120,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
 		{
-			field: "Last_Sync_time",
-			headerName: "最終同期時刻/次回同期時刻",
+			field: "Sync_interval",
+			headerName: "同期間隔",
 			type: "text",
-			width: 250,
+			width: 100,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
 		{
-			field: "situation_MODE",
-			headerName: "状態/MODE",
+			field: "situation",
+			headerName: "状態",
 			type: "text",
-			width: 150,
+			width: 100,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
-		// {
-		// 	field: "fullName",
-		// 	headerName: "Full name",
-		// 	description: "This column has a value getter and is not sortable.",
-		// 	sortable: false,
-		// 	width: 160,
-		// 	valueGetter: (params) =>
-		// 		`${params.row.firstName || ""} ${params.row.lastName || ""}`,
-		// },
+		{
+			field: "Mode",
+			headerName: "Mode",
+			type: "text",
+			width: 100,
+			renderCell: (params) => (
+				<a href={`/update-style?id=${params.row._id}`}>{params.value}</a>
+			),
+		},
 	];
 
-	const rows = [
-		{
-			id: 1,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 2,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 3,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 4,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 5,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 6,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 7,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 8,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 9,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-		{
-			id: 10,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			style_name: "Jon",
-			stylelist: "asd",
-			coupon: "asd",
-			original_ID: "asd",
-			Sync_start_date: "sd",
-			Sync_start_time: "asdf",
-			Last_Sync_time: "da",
-			situation_MODE: "sdfa",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-	];
+	// const rows = [
+	// 	{
+	// 		id: 1,
+	// 		image:
+	// 			"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
+	// 		style_name: "Jon",
+	// 		stylist: "asd",
+	// 		coupon: "asd",
+	// 		original_ID: "asd",
+	// 		copy_ID: "ds",
+	// 		Sync_start_date: "sd",
+	// 		Sync_end_date: "df",
+	// 		Sync_start_time: "asdf",
+	// 		Sync_interval: "sdf",
+	// 		situation: "da",
+	// 		Mode: "del",
+	// 		imageWidth: 100,
+	// 		imageHeight: 100,
+	// 	},
+	// ];
+	const rows = style.map((item, index) => ({
+		id: index + 1,
+		image: item.selectedImage1,
+		style_name: item.style_name,
+		stylist: item.stylist_name,
+		coupon: item.coupon,
+		Sync_start_date: item.sync_date_start,
+		Sync_end_date: item.sync_date_end,
+		Sync_start_time: item.sync_start_time,
+		Sync_interval: item.sync_interval,
+		situation: "in operation",
+		Mode: item.post_mode,
+		imageWidth: 100,
+		imageHeight: 100,
+		_id: item._id,
+	}));
 	return (
 		<>
 			<div>

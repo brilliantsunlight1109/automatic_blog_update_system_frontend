@@ -63,7 +63,7 @@ const Stylenav = () => {
 			);
 			const { status, user } = data;
 			setUsername(user);
-			console.log(user);
+			console.log("login user:", user);
 			return status
 				? setVerifyname(user)
 				: (removeCookie("token"), navigate("/"));

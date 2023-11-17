@@ -128,6 +128,17 @@ const Login = () => {
 						</div>
 					</form>
 
+					<div>
+						<p className="mt-10 text-center text-sm text-violet-600">
+							<a
+								href="/signup"
+								className="font-semibold leading-6 text-violet-600 hover:text-violet-500"
+							>
+								会員登録に移行
+							</a>
+						</p>
+					</div>
+
 					<p className="mt-10 text-center text-sm text-red-600">
 						<a className="font-semibold leading-6 text-red-600 hover:text-red-500">
 							{alarm}

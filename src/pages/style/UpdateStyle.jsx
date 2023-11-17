@@ -2,6 +2,8 @@ import React from "react";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Stylenav from "../Stylenav";
@@ -53,9 +55,29 @@ import Checkbox from "@mui/material/Checkbox";
 import StyleTemplate from "./StyleTemplate";
 //checkbox-select
 
-const AddStyle = () => {
+const UpdateStyle = () => {
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const id = searchParams.get("id");
+	console.log(id);
+	const [style, setStyle] = useState([]);
 	//tab
 	const [key, setKey] = useState("home");
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get("http://localhost:4000/api/style");
+				// console.log(response.data);
+				setStyle(response.data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
 	const navigate = useNavigate();
 
 	//const
@@ -1719,4 +1741,4 @@ const AddStyle = () => {
 	);
 };
 
-export default AddStyle;
+export default UpdateStyle;

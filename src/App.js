@@ -11,6 +11,7 @@ import StyleSetting from "./pages/stylesetting/styleSetting";
 import Review from "./pages/review/review";
 import SyncHistory from "./pages/synchistory/synchistory";
 import UpdateStyle from "./pages/style/UpdateStyle";
+import UpdateBlog from "./pages/blog/updateBlog";
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 					<Route path="/review" element={<Review />} />
 					<Route path="/sync-history" element={<SyncHistory />} />
 					<Route path="/update-style" element={<UpdateStyle />} />
+					<Route path="/update-blog" element={<UpdateBlog />} />
 					<Route path="*" element={<Error />} />
 				</Routes>
 			</BrowserRouter>

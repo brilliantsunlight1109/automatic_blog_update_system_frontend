@@ -399,7 +399,7 @@ const AddStyle = () => {
 													</Card>
 												</Box>
 											</div>
-											<div className="mt-24 flex justify-center gap-x-14">
+											{/* <div className="mt-24 flex justify-center gap-x-14">
 												<Box
 													sx={{ minWidth: 300 }}
 													className="flex justify-center items-center"
@@ -419,7 +419,7 @@ const AddStyle = () => {
 														追加
 													</Button>
 												</Box>
-											</div>
+											</div> */}
 											<div className="flex flex-col justify-center items-center w-full">
 												<Box
 													sx={{ flexGrow: 1 }}

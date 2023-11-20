@@ -43,7 +43,7 @@ import { Fullscreen, WidthFull } from "@mui/icons-material";
 //bootstrap textarea
 import Form from "react-bootstrap/Form";
 //upload
-import { styled } from "@mui/material/styles";
+
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 //Radio Group
 import Radio from "@mui/material/Radio";
@@ -54,12 +54,28 @@ import Checkbox from "@mui/material/Checkbox";
 import { DataGrid } from "@mui/x-data-grid";
 
 const BlogList = () => {
+	const [blog, setBlog] = useState([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get("http://localhost:4000/api/blog");
+				// console.log(response.data);
+				setBlog(response.data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
 	const columns = [
-		{ field: "id", headerName: "番号", type: "number", width: 100 },
+		{ field: "id", headerName: "番号", type: "number", width: 50 },
 		{
 			field: "image",
-			headerName: "画像",
-			width: 200,
+			headerName: "写真",
+			width: 160,
 			renderCell: (params) => (
 				<img
 					src={params.row.image}
@@ -70,75 +86,74 @@ const BlogList = () => {
 			),
 		},
 		{
-			field: "title",
-			headerName: "タイトル",
+			field: "post_date",
+			headerName: "投稿日時",
 			type: "text",
-			width: 200,
-		},
-		{
-			field: "category",
-			headerName: "カテゴリ",
-			type: "text",
-			width: 200,
+			width: 120,
+			renderCell: (params) => (
+				<a href={`/update-blog?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
 		{
 			field: "contributor",
 			headerName: "投稿者",
 			type: "text",
-			width: 200,
+			width: 120,
+			renderCell: (params) => (
+				<a href={`/update-blog?id=${params.row._id}`}>{params.value}</a>
+			),
+		},
+		{
+			field: "category",
+			headerName: "カテゴリー",
+			type: "text",
+			width: 160,
+			renderCell: (params) => (
+				<a href={`/update-blog?id=${params.row._id}`}>{params.value}</a>
+			),
+		},
+		{
+			field: "title_character",
+			headerName: "タイトル",
+			type: "text",
+			width: 220,
+			renderCell: (params) => (
+				<a href={`/update-blog?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
 		{
 			field: "coupon",
 			headerName: "クーポン",
 			type: "text",
-			width: 200,
+			width: 400,
+			renderCell: (params) => (
+				<a href={`/update-blog?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
 		{
-			field: "ID",
-			headerName: "ID",
+			field: "post_text",
+			headerName: "記事",
 			type: "text",
-			width: 100,
+			width: 450,
+			renderCell: (params) => (
+				<a href={`/update-blog?id=${params.row._id}`}>{params.value}</a>
+			),
 		},
-		{
-			field: "Scheduled_posting_time",
-			headerName: "投稿予定時刻",
-			type: "text",
-			width: 200,
-		},
-		{
-			field: "type",
-			headerName: "type",
-			type: "text",
-			width: 200,
-		},
-
-		// {
-		// 	field: "fullName",
-		// 	headerName: "Full name",
-		// 	description: "This column has a value getter and is not sortable.",
-		// 	sortable: false,
-		// 	width: 160,
-		// 	valueGetter: (params) =>
-		// 		`${params.row.firstName || ""} ${params.row.lastName || ""}`,
-		// },
 	];
 
-	const rows = [
-		{
-			id: 1,
-			image:
-				"https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format",
-			title: "asd",
-			category: "Jon",
-			contributor: "ds",
-			coupon: "ad",
-			ID: "44",
-			Scheduled_posting_time: "asdf",
-			type: "asf",
-			imageWidth: 100,
-			imageHeight: 100,
-		},
-	];
+	const rows = blog.map((item, index) => ({
+		id: index + 1,
+		image: item.uploadImage,
+		post_date: item.post_date,
+		contributor: item.contributor,
+		title_character: item.title_character,
+		coupon: item.coupon,
+		post_text: item.post_text,
+		category: item.category,
+		imageWidth: 100,
+		imageHeight: 100,
+		_id: item._id,
+	}));
 
 	const navigate = useNavigate();
 	const addBlog = () => {
@@ -156,7 +171,7 @@ const BlogList = () => {
 					</Box>
 				</div>
 				<div className="px-12 pt-16">
-					<div style={{ height: "100%", width: "100%" }}>
+					<div blog={{ height: "100%", width: "100%" }}>
 						<DataGrid
 							rows={rows}
 							columns={columns}

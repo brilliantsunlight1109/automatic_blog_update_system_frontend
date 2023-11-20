@@ -3,7 +3,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Stylenav from "../Stylenav";
@@ -59,7 +58,7 @@ const UpdateStyle = () => {
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	const id = searchParams.get("id");
-	console.log(id);
+	// console.log(id);
 	const [style, setStyle] = useState([]);
 	//tab
 	const [key, setKey] = useState("home");
@@ -67,16 +66,65 @@ const UpdateStyle = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get("http://localhost:4000/api/style");
+				const response = await axios.get(
+					`http://localhost:4000/api/style/${id}`
+				);
 				// console.log(response.data);
 				setStyle(response.data);
+				setData({
+					update_stop: response.data.update_stop,
+					internal_memo: response.data.internal_memo,
+					stylist_comment: response.data.stylist_comment,
+					style_name: response.data.style_name,
+					styling_arrangement_point: response.data.styling_arrangement_point,
+					sync_date_start: response.data.sync_date_start,
+					sync_date_end: response.data.sync_date_end,
+					sync_start_time: response.data.sync_start_time,
+					sync_interval: response.data.sync_interval,
+					post_mode: response.data.post_mode,
+					selectedImage1: response.data.selectedImage1,
+					selectedImage2: response.data.selectedImage2,
+					selectedImage3: response.data.selectedImage3,
+					front: response.data.front,
+					front1: response.data.front1,
+					front2: response.data.front2,
+					stylist_name: response.data.stylist_name,
+					sex: response.data.sex,
+					length: response.data.length,
+					color: response.data.color,
+					style_image: response.data.style_image,
+					style_menu_perm: response.data.style_menu_perm,
+					style_menu_straight_perm: response.data.style_menu_straight_perm,
+					extensions: response.data.extensions,
+					coupon: response.data.coupon,
+					hair_amount_few: response.data.hair_amount_few,
+					hair_amount_usually: response.data.hair_amount_usually,
+					hair_amount_many: response.data.hair_amount_many,
+					hair_type_soft: response.data.hair_type_soft,
+					hair_type_usually: response.data.hair_type_usually,
+					hair_type_hard: response.data.hair_type_hard,
+					thickness_thin: response.data.thickness_thin,
+					thickness_usually: response.data.thickness_usually,
+					thickness_thick: response.data.thickness_thick,
+					habit_none: response.data.habit_none,
+					habit_bit: response.data.habit_bit,
+					habit_strong: response.data.habit_strong,
+					face_type_round_shape: response.data.face_type_round_shape,
+					face_type_inverted_triangle:
+						response.data.face_type_inverted_triangle,
+					face_type_egg_shapped: response.data.face_type_egg_shapped,
+					face_type_base: response.data.face_type_base,
+					face_type_square: response.data.face_type_square,
+					menu_content: response.data.menu_content,
+				});
 			} catch (error) {
 				console.log(error);
 			}
 		};
 
 		fetchData();
-	}, []);
+	}, [id]);
+	// console.log(style);
 
 	const navigate = useNavigate();
 
@@ -126,7 +174,6 @@ const UpdateStyle = () => {
 		face_type_square: true,
 		menu_content: "",
 	});
-
 	//switch
 
 	const updateStop = (e) => {
@@ -194,26 +241,26 @@ const UpdateStyle = () => {
 	// console.log("coupon:",data.coupon);
 
 	// console.log("hair_amount_few:",data.hair_amount_few);
-	// console.log("hair_amount_usually:",data.hair_amount_usually);
-	// console.log("hair_amount_many:",data.hair_amount_many);
-	// console.log("hair_amount_few:",data.hair_amount_few);
-	// console.log("hair_amount_usually:",data.hair_amount_usually);
-	// console.log("hair_amount_many:",data.hair_amount_many);
-	// console.log("hair_type_soft:",data.hair_type_soft);
-	// console.log("hair_type_usually:",data.hair_type_usually);
-	// console.log("hair_type_hard:",data.hair_type_hard);
-	// console.log("thickness_thin:",data.thickness_thin);
-	// console.log("thickness_usually:",data.thickness_usually);
-	// console.log("thickness_thick:",data.thickness_thick);
-	// console.log("habit_none:",data.habit_none);
-	// console.log("habit_bit:",data.habit_bit);
-	// console.log("habit_strong:",data.habit_strong);
-	// console.log("face_type_round_shape:",data.face_type_round_shape);
-	// console.log("face_type_inverted_triangle:",data.face_type_inverted_triangle);
-	// console.log("face_type_egg_shapped:",data.face_type_egg_shapped);
-	// console.log("face_type_base:",data.face_type_base);
-	// console.log("face_type_square:",data.face_type_square);
-	// console.log("menu_content:",data.menu_content);
+	// console.log("hair_amount_usually:", data.hair_amount_usually);
+	// console.log("hair_amount_many:", data.hair_amount_many);
+	// console.log("hair_amount_few:", data.hair_amount_few);
+	// console.log("hair_amount_usually:", data.hair_amount_usually);
+	// console.log("hair_amount_many:", data.hair_amount_many);
+	// console.log("hair_type_soft:", data.hair_type_soft);
+	// console.log("hair_type_usually:", data.hair_type_usually);
+	// console.log("hair_type_hard:", data.hair_type_hard);
+	// console.log("thickness_thin:", data.thickness_thin);
+	// console.log("thickness_usually:", data.thickness_usually);
+	// console.log("thickness_thick:", data.thickness_thick);
+	// console.log("habit_none:", data.habit_none);
+	// console.log("habit_bit:", data.habit_bit);
+	// console.log("habit_strong:", data.habit_strong);
+	// console.log("face_type_round_shape:", data.face_type_round_shape);
+	// console.log("face_type_inverted_triangle:", data.face_type_inverted_triangle);
+	// console.log("face_type_egg_shapped:", data.face_type_egg_shapped);
+	// console.log("face_type_base:", data.face_type_base);
+	// console.log("face_type_square:", data.face_type_square);
+	// console.log("menu_content:", data.menu_content);
 
 	// console.log(data.selectedImage1);
 	// console.log(data);
@@ -279,57 +326,70 @@ const UpdateStyle = () => {
 		e.preventDefault();
 
 		axios
-			.post("http://localhost:4000/api/style", data)
+			.put(`http://localhost:4000/api/style/${id}`, data)
 			.then((res) => {
-				setData({
-					update_stop: false,
-					internal_memo: "",
-					stylist_comment: "",
-					style_name: "",
-					styling_arrangement_point: "",
-					sync_date_start: "",
-					sync_date_end: "",
-					sync_start_time: "",
-					sync_interval: "",
-					post_mode: "",
-					selectedImage1: "",
-					selectedImage2: "",
-					selectedImage3: "",
-					front: "",
-					front1: "",
-					front2: "",
-					stylist_name: "",
-					sex: "female",
-					length: "",
-					color: "",
-					style_image: "",
-					style_menu_perm: false,
-					style_menu_straight_perm: false,
-					extensions: false,
-					coupon: "",
-					hair_amount_few: true,
-					hair_amount_usually: true,
-					hair_amount_many: true,
-					hair_type_soft: true,
-					hair_type_usually: true,
-					hair_type_hard: true,
-					thickness_thin: true,
-					thickness_usually: true,
-					thickness_thick: true,
-					habit_none: true,
-					habit_bit: true,
-					habit_strong: true,
-					face_type_round_shape: true,
-					face_type_inverted_triangle: true,
-					face_type_egg_shapped: true,
-					face_type_base: true,
-					face_type_square: true,
-					menu_content: "",
-				});
+				// setData({
+				// 	update_stop: false,
+				// 	internal_memo: "",
+				// 	stylist_comment: "",
+				// 	style_name: "",
+				// 	styling_arrangement_point: "",
+				// 	sync_date_start: "",
+				// 	sync_date_end: "",
+				// 	sync_start_time: "",
+				// 	sync_interval: "",
+				// 	post_mode: "",
+				// 	selectedImage1: "",
+				// 	selectedImage2: "",
+				// 	selectedImage3: "",
+				// 	front: "",
+				// 	front1: "",
+				// 	front2: "",
+				// 	stylist_name: "",
+				// 	sex: "female",
+				// 	length: "",
+				// 	color: "",
+				// 	style_image: "",
+				// 	style_menu_perm: false,
+				// 	style_menu_straight_perm: false,
+				// 	extensions: false,
+				// 	coupon: "",
+				// 	hair_amount_few: true,
+				// 	hair_amount_usually: true,
+				// 	hair_amount_many: true,
+				// 	hair_type_soft: true,
+				// 	hair_type_usually: true,
+				// 	hair_type_hard: true,
+				// 	thickness_thin: true,
+				// 	thickness_usually: true,
+				// 	thickness_thick: true,
+				// 	habit_none: true,
+				// 	habit_bit: true,
+				// 	habit_strong: true,
+				// 	face_type_round_shape: true,
+				// 	face_type_inverted_triangle: true,
+				// 	face_type_egg_shapped: true,
+				// 	face_type_base: true,
+				// 	face_type_square: true,
+				// 	menu_content: "",
+				// });
 				console.log(res.data.message);
 			})
 			.catch((err) => {
 				console.log("Error couldn't create Style");
+				console.log(err.message);
+			});
+	};
+	const handleDelete = () => {
+		axios
+			.delete(`http://localhost:4000/api/style/${id}`)
+			.then((res) => {
+				console.log(res.data.message);
+				alert("正確に削除されました。");
+				navigate("/home");
+			})
+			.catch((err) => {
+				console.log("Error couldn't delete Style");
 				console.log(err.message);
 			});
 	};
@@ -421,7 +481,7 @@ const UpdateStyle = () => {
 													</Card>
 												</Box>
 											</div>
-											<div className="mt-24 flex justify-center gap-x-14">
+											{/* <div className="mt-24 flex justify-center gap-x-14">
 												<Box
 													sx={{ minWidth: 300 }}
 													className="flex justify-center items-center"
@@ -438,10 +498,10 @@ const UpdateStyle = () => {
 													className="flex justify-center items-center"
 												>
 													<Button variant="contained" className="py-3 w-72">
-														追加
+														更新
 													</Button>
 												</Box>
-											</div>
+											</div> */}
 											<div className="flex flex-col justify-center items-center w-full">
 												<Box
 													sx={{ flexGrow: 1 }}
@@ -1715,14 +1775,41 @@ const UpdateStyle = () => {
 													</Card>
 												</Box>
 											</div>
-											<div className="flex justify-center mt-6 mb-24">
+											{/* <div className="flex justify-center mt-6 mb-24">
 												<Box>
 													<Button
 														variant="contained"
 														className="w-96 py-2"
 														type="submit"
 													>
-														追加
+														更新
+													</Button>
+												</Box>
+											</div> */}
+											<div className="mt-8 mb-8 flex justify-center gap-x-14">
+												<Box
+													sx={{ minWidth: 300 }}
+													className="flex justify-center items-center"
+												>
+													<Button
+														variant="contained"
+														className="py-3 w-72 text-4xl"
+														style={{ backgroundColor: "#ef4444" }}
+														onClick={handleDelete}
+													>
+														削除
+													</Button>
+												</Box>
+												<Box
+													sx={{ minWidth: 300 }}
+													className="flex justify-center items-center"
+												>
+													<Button
+														variant="contained"
+														className="py-3 w-72"
+														type="submit"
+													>
+														更新
 													</Button>
 												</Box>
 											</div>

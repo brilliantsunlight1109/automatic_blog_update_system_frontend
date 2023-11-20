@@ -52,6 +52,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 //checkbox
 import Checkbox from "@mui/material/Checkbox";
 import Maintenance from "./maintenance";
+import History from "./history";
 
 const SyncHistory = () => {
 	return (
@@ -68,7 +69,7 @@ const SyncHistory = () => {
 					</header>
 					<main>
 						<div className="px-16 max-w-full py-6 sm:px-6 lg:px-8 bg-[#9ca3af0d] min-h-[50.6rem]">
-							<Maintenance />
+							<History />
 						</div>
 					</main>
 				</div>

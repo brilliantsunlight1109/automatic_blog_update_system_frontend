@@ -2,6 +2,7 @@ import React from "react";
 import Stylenav from "../Stylenav";
 
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -64,8 +65,13 @@ const VisuallyHiddenInput = styled("input")({
 	width: 1,
 });
 
-const AddBlog = () => {
+const UpdateBlog = () => {
+	const navigate = useNavigate();
 	const [key, setKey] = useState("post");
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const id = searchParams.get("id");
+	const [blog, setBlog] = useState([]);
 	const [data, setData] = useState({
 		post_date: "",
 		contributor: "",
@@ -76,6 +82,31 @@ const AddBlog = () => {
 		uploadImage: "",
 		post_text: "",
 	});
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get(
+					`http://localhost:4000/api/blog/${id}`
+				);
+				setBlog(response.data);
+				setData({
+					post_date: response.data.post_date,
+					contributor: response.data.contributor,
+					category: response.data.category,
+					title_character: response.data.title_character,
+					coupon: response.data.coupon,
+					signature: response.data.signature,
+					uploadImage: response.data.uploadImage,
+					post_text: response.data.post_text,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchData();
+	}, [id]);
+	console.log(data);
 
 	//ImageUpload
 	const VisuallyHiddenInput = styled("input")({
@@ -110,18 +141,18 @@ const AddBlog = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		axios
-			.post("http://localhost:4000/api/blog", data)
+			.put(`http://localhost:4000/api/blog/${id}`, data)
 			.then((res) => {
-				setData({
-					post_date: "",
-					contributor: "",
-					category: "",
-					title_character: "",
-					coupon: "",
-					signature: "",
-					uploadImage: "",
-					post_text: "",
-				});
+				// setData({
+				// 	post_date: "",
+				// 	contributor: "",
+				// 	category: "",
+				// 	title_character: "",
+				// 	coupon: "",
+				// 	signature: "",
+				// 	uploadImage: null,
+				// 	post_text: "",
+				// });
 				console.log(res.data.message);
 			})
 			.catch((err) => {
@@ -129,20 +160,27 @@ const AddBlog = () => {
 				console.log(err.message);
 			});
 	};
-	console.log(data.post_date);
-	console.log(data.contributor);
-	console.log(data.category);
-	console.log(data.title_character);
-	console.log(data.coupon);
-	console.log(data.signature);
-	console.log(data.uploadImage);
-	console.log(data.post_text);
-
-	const [state, setState] = useState({
-		gilad: false,
-		jason: false,
-		antoine: true,
-	});
+	const handleDelete = () => {
+		axios
+			.delete(`http://localhost:4000/api/blog/${id}`)
+			.then((res) => {
+				console.log(res.data.message);
+				alert("正確に削除されました。");
+				navigate("/blog");
+			})
+			.catch((err) => {
+				console.log("Error couldn't delete Blog");
+				console.log(err.message);
+			});
+	};
+	// console.log(data.post_date);
+	// console.log(data.contributor);
+	// console.log(data.category);
+	// console.log(data.title_character);
+	// console.log(data.coupon);
+	// console.log(data.signature);
+	// console.log(data.uploadImage);
+	// console.log(data.post_text);
 
 	//textarea
 
@@ -158,23 +196,6 @@ const AddBlog = () => {
 	//select
 	const handleChangeSelect = (e) => {
 		setData((data) => ({ ...data, [e.target.name]: e.target.value }));
-	};
-
-	const [age, setAge] = useState("");
-
-	const handleChange = (event) => {
-		setAge(event.target.value);
-	};
-
-	const handleChange_select = (event) => {
-		setAge(event.target.value);
-	};
-
-	const handleChange_checked = (event) => {
-		setState({
-			...state,
-			[event.target.name]: event.target.checked,
-		});
 	};
 
 	return (
@@ -737,14 +758,31 @@ const AddBlog = () => {
 											</Box>
 										</div>
 									</div>
-									<div className="flex justify-center items-center mt-8 mb-12">
-										<Box>
+
+									<div className="mt-8 mb-8 flex justify-center gap-x-14">
+										<Box
+											sx={{ minWidth: 300 }}
+											className="flex justify-center items-center"
+										>
 											<Button
 												variant="contained"
-												className="pt-3 pb-3 w-72"
+												className="py-3 w-72 text-4xl"
+												style={{ backgroundColor: "#ef4444" }}
+												onClick={handleDelete}
+											>
+												削除
+											</Button>
+										</Box>
+										<Box
+											sx={{ minWidth: 300 }}
+											className="flex justify-center items-center"
+										>
+											<Button
+												variant="contained"
+												className="py-3 w-72"
 												type="submit"
 											>
-												追加
+												更新
 											</Button>
 										</Box>
 									</div>
@@ -758,4 +796,4 @@ const AddBlog = () => {
 	);
 };
 
-export default AddBlog;
+export default UpdateBlog;

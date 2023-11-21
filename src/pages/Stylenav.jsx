@@ -6,6 +6,13 @@ import axios from "axios";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+//redux
+import { useDispatch } from "react-redux";
+import {
+	setUsername,
+	setUserSalonId,
+	setId,
+} from "../store/actions/setUserDetails";
 
 const user = {
 	name: "Tom Cook",
@@ -33,8 +40,11 @@ function classNames(...classes) {
 const Stylenav = () => {
 	const navigate = useNavigate();
 	const [cookies, removeCookie] = useCookies([]);
-	const [username, setUsername] = useState("");
+	// const [username, setUsername] = useState("");
 	const [verifyname, setVerifyname] = useState("");
+
+	//redux
+	const dispatch = useDispatch();
 
 	const [key, setKey] = useState("home");
 
@@ -61,15 +71,21 @@ const Stylenav = () => {
 				{},
 				{ withCredentials: true }
 			);
-			const { status, user } = data;
-			setUsername(user);
-			console.log("login user:", user);
+			const { status, username, user_salon_id, id } = data;
+			console.log("style-nav-username", username);
+			console.log("style-user_salon_id", user_salon_id);
+			console.log("style-id", id);
+			if (status) {
+				dispatch(setUsername(username));
+				dispatch(setUserSalonId(user_salon_id));
+				dispatch(setId(id));
+			}
 			return status
-				? setVerifyname(user)
+				? setVerifyname(username)
 				: (removeCookie("token"), navigate("/"));
 		};
 		verifyCookie();
-	}, [cookies, navigate, removeCookie]);
+	}, [cookies, navigate, removeCookie, dispatch]);
 	const Logout = () => {
 		removeCookie("token");
 		navigate("/");

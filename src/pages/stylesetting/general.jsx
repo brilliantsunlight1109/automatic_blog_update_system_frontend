@@ -52,8 +52,44 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Checkbox from "@mui/material/Checkbox";
 //datagrid
 import { DataGrid } from "@mui/x-data-grid";
+//redux
+import { useSelector } from "react-redux";
 
 const General = () => {
+	const [data, setData] = useState({
+		salon_password: "",
+		salon_confirm_password: "",
+		style_tokyo_id: "",
+		password: "",
+		confirm_password: "",
+	});
+
+	//redux
+	const username = useSelector((state) => state.username);
+	const userSalonId = useSelector((state) => state.userSalonId);
+	const Id = useSelector((state) => state.Id);
+	console.log("redux-username: ", username);
+	console.log("redux-userSalonId: ", userSalonId);
+	console.log("redux-Id: ", Id);
+	const id = Id;
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get(`http://localhost:4000/${id}`);
+				console.log("response.data: ", response.data);
+				setData({
+					style_tokyo_id: response.data.style_tokyo_id,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		if (id) {
+			fetchData();
+		}
+	}, [id]);
+
 	const [state, setState] = useState({
 		gilad: false,
 		jason: false,
@@ -64,192 +100,281 @@ const General = () => {
 		setAge(event.target.value);
 	};
 
+	//textarea
+
+	const handleChangeTextarea = (e) => {
+		setData((data) => ({ ...data, [e.target.name]: e.target.value }));
+	};
+
 	const handleChange_checked = (event) => {
 		setState({
 			...state,
 			[event.target.name]: event.target.checked,
 		});
 	};
+	//redux
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const updateData = {};
+		if (data.salon_password && data.salon_password.trim() !== "") {
+			updateData.salon_password = data.salon_password;
+		}
+		if (
+			data.salon_confirm_password &&
+			data.salon_confirm_password.trim() !== ""
+		) {
+			updateData.salon_confirm_password = data.salon_confirm_password;
+		}
+		if (data.style_tokyo_id && data.style_tokyo_id.trim() !== "") {
+			updateData.style_tokyo_id = data.style_tokyo_id;
+		}
+		if (data.password && data.password.trim() !== "") {
+			updateData.password = data.password;
+		}
+		if (data.confirm_password && data.confirm_password.trim() !== "") {
+			updateData.confirm_password = data.confirm_password;
+		}
+		if (Object.keys(updateData).length === 0) {
+			console.log("No fields to update");
+			return;
+		}
+		console.log("updateData: ", updateData);
+		axios
+			.put(`http://localhost:4000/${id}`, updateData)
+			.then((res) => {
+				console.log(res.data.message);
+				setData({
+					salon_password: "",
+					salon_confirm_password: "",
+					password: "",
+					confirm_password: ""
+				});
+			})
+			.catch((err) => {
+				console.log("Error couldn't update User Information Setting");
+				console.log(err.message);
+			});
+	};
+
 	return (
 		<>
 			<div className="container-xl min-h-screen">
-				<div className="flex justify-center items-center mt-12">
-					<div className="flex flex-col justify-center items-center w-full">
-						<Box sx={{ flexGrow: 1 }} className="w-full max-w-5xl mx-auto">
-							<AppBar position="static" className="rounded-t-lg">
-								<Toolbar>
-									{/* <IconButton
+				<form onSubmit={handleSubmit}>
+					<div className="flex justify-center items-center mt-12">
+						<div className="flex flex-col justify-center items-center w-full">
+							<Box sx={{ flexGrow: 1 }} className="w-full max-w-5xl mx-auto">
+								<AppBar position="static" className="rounded-t-lg">
+									<Toolbar>
+										{/* <IconButton
 															size="large"
 															edge="start"
 															color="inherit"
 															aria-label="menu"
 															sx={{ mr: 2 }}
 														> */}
-									{/* <MenuIcon className="mr-6" /> */}
-									{/* </IconButton> */}
-									<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-										設定
-									</Typography>
-									{/* <Button color="inherit">Login</Button> */}
-								</Toolbar>
-							</AppBar>
-							<Card className="flex justify-start w-full">
-								<CardContent className="rounded-tr-none w-full">
-									<div className="flex justify-start pl-20 pb-3 pt-3 w-full flex-col">
-										<Box>
-											<FormControl component="fieldset" variant="standard">
-												{/* <FormLabel component="legend">
+										{/* <MenuIcon className="mr-6" /> */}
+										{/* </IconButton> */}
+										<Typography
+											variant="h6"
+											component="div"
+											sx={{ flexGrow: 1 }}
+										>
+											設定
+										</Typography>
+										{/* <Button color="inherit">Login</Button> */}
+									</Toolbar>
+								</AppBar>
+								<Card className="flex justify-start w-full">
+									<CardContent className="rounded-tr-none w-full">
+										<div className="flex justify-start pl-20 pb-3 pt-3 w-full flex-col">
+											<Box>
+												<FormControl component="fieldset" variant="standard">
+													{/* <FormLabel component="legend">
 																		Assign responsibility
 																	</FormLabel> */}
-												<FormGroup>
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.gilad}
-																onChange={handleChange_checked}
-																name="gilad"
-															/>
-														}
-														label="スタイル更新停止"
-													/>
-												</FormGroup>
+													<FormGroup>
+														<FormControlLabel
+															control={
+																<Switch
+																	checked={state.gilad}
+																	onChange={handleChange_checked}
+																	name="gilad"
+																/>
+															}
+															label="スタイル更新停止"
+														/>
+													</FormGroup>
 
-												{/* <FormHelperText>Be careful</FormHelperText> */}
-											</FormControl>
-										</Box>
-									</div>
-									<div className="flex justify-center">
-										<Button variant="contained" className="py-3 w-64">
-											テンプレートを反映
-										</Button>
-									</div>
-								</CardContent>
-							</Card>
-						</Box>
+													{/* <FormHelperText>Be careful</FormHelperText> */}
+												</FormControl>
+											</Box>
+										</div>
+										<div className="flex justify-center">
+											<Button variant="contained" className="py-3 w-64">
+												テンプレートを反映
+											</Button>
+										</div>
+									</CardContent>
+								</Card>
+							</Box>
+						</div>
 					</div>
-				</div>
-				<div className="flex justify-center items-center mt-12">
-					<div className="flex flex-col justify-center items-center w-full">
-						<Box sx={{ flexGrow: 1 }} className="w-full max-w-5xl mx-auto">
-							<AppBar position="static" className="rounded-t-lg">
-								<Toolbar>
-									{/* <IconButton
+					<div className="flex justify-center items-center mt-12">
+						<div className="flex flex-col justify-center items-center w-full">
+							<Box sx={{ flexGrow: 1 }} className="w-full max-w-5xl mx-auto">
+								<AppBar position="static" className="rounded-t-lg">
+									<Toolbar>
+										{/* <IconButton
 															size="large"
 															edge="start"
 															color="inherit"
 															aria-label="menu"
 															sx={{ mr: 2 }}
 														> */}
-									{/* <MenuIcon className="mr-6" /> */}
-									{/* </IconButton> */}
-									<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-										サロンボードログイン情報
-									</Typography>
-									{/* <Button color="inherit">Login</Button> */}
-								</Toolbar>
-							</AppBar>
-							<Card className="flex justify-start w-full">
-								<CardContent className="rounded-tr-none w-full">
-									<div className="flex justify-start pl-20 pr-20 pb-3 pt-8 w-full flex-col">
-										<Box>
-											<div className="pb-2">
-												<Typography variant="h6">ユーザ名</Typography>
-											</div>
-											<div className="pb-2">
-												<Typography variant="h6">CD456</Typography>
-											</div>
-										</Box>
-										<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
-											<Typography className="pb-3">パスワード</Typography>
-											<FormControl className="w-full">
-												<TextField
-													id="outlined-basic"
-													label="※変更時のみ入力"
-													variant="outlined"
-												/>
-											</FormControl>
-										</Box>
-										<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
-											<Typography className="pb-3">パスワード確認</Typography>
-											<FormControl className="w-full">
-												<TextField
-													id="outlined-basic"
-													label="※変更時のみ入力"
-													variant="outlined"
-												/>
-											</FormControl>
-										</Box>
-									</div>
-								</CardContent>
-							</Card>
-						</Box>
+										{/* <MenuIcon className="mr-6" /> */}
+										{/* </IconButton> */}
+										<Typography
+											variant="h6"
+											component="div"
+											sx={{ flexGrow: 1 }}
+										>
+											サロンボードログイン情報
+										</Typography>
+										{/* <Button color="inherit">Login</Button> */}
+									</Toolbar>
+								</AppBar>
+								<Card className="flex justify-start w-full">
+									<CardContent className="rounded-tr-none w-full">
+										<div className="flex justify-start pl-20 pr-20 pb-3 pt-8 w-full flex-col">
+											<Box>
+												<div className="pb-2">
+													<Typography variant="h6">サロンボードID</Typography>
+												</div>
+												<div className="pb-2">
+													<Typography variant="h6">{userSalonId}</Typography>
+												</div>
+											</Box>
+											<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
+												<Typography className="pb-3">パスワード</Typography>
+												<FormControl className="w-full">
+													<TextField
+														id="outlined-basic"
+														label="※変更時のみ入力"
+														variant="outlined"
+														onChange={handleChangeTextarea}
+														name="salon_password"
+														value={data.salon_password}
+													/>
+												</FormControl>
+											</Box>
+											<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
+												<Typography className="pb-3">パスワード確認</Typography>
+												<FormControl className="w-full">
+													<TextField
+														id="outlined-basic"
+														label="※変更時のみ入力"
+														variant="outlined"
+														onChange={handleChangeTextarea}
+														name="salon_confirm_password"
+														value={data.salon_confirm_password}
+													/>
+												</FormControl>
+											</Box>
+										</div>
+									</CardContent>
+								</Card>
+							</Box>
+						</div>
 					</div>
-				</div>
-				<div className="flex justify-center items-center mt-12">
-					<div className="flex flex-col justify-center items-center w-full">
-						<Box sx={{ flexGrow: 1 }} className="w-full max-w-5xl mx-auto">
-							<AppBar position="static" className="rounded-t-lg">
-								<Toolbar>
-									{/* <IconButton
+					<div className="flex justify-center items-center mt-12">
+						<div className="flex flex-col justify-center items-center w-full">
+							<Box sx={{ flexGrow: 1 }} className="w-full max-w-5xl mx-auto">
+								<AppBar position="static" className="rounded-t-lg">
+									<Toolbar>
+										{/* <IconButton
 															size="large"
 															edge="start"
 															color="inherit"
 															aria-label="menu"
 															sx={{ mr: 2 }}
 														> */}
-									{/* <MenuIcon className="mr-6" /> */}
-									{/* </IconButton> */}
-									<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-										StyleTokyoユーザ情報
-									</Typography>
-									{/* <Button color="inherit">Login</Button> */}
-								</Toolbar>
-							</AppBar>
-							<Card className="flex justify-start w-full">
-								<CardContent className="rounded-tr-none w-full">
-									<div className="flex justify-start pl-20 pr-20 pb-3 pt-8 w-full flex-col">
-										<Box>
-											<div className="pb-2">
-												<Typography variant="h6">ユーザ名</Typography>
-											</div>
-											<div className="pb-2">
-												<Typography variant="h6">
-													QOL mens salon 立川
+										{/* <MenuIcon className="mr-6" /> */}
+										{/* </IconButton> */}
+										<Typography
+											variant="h6"
+											component="div"
+											sx={{ flexGrow: 1 }}
+										>
+											StyleTokyoユーザ情報
+										</Typography>
+										{/* <Button color="inherit">Login</Button> */}
+									</Toolbar>
+								</AppBar>
+								<Card className="flex justify-start w-full">
+									<CardContent className="rounded-tr-none w-full">
+										<div className="flex justify-start pl-20 pr-20 pb-3 pt-8 w-full flex-col">
+											<Box>
+												<div className="pb-2">
+													<Typography variant="h6">ユーザ名</Typography>
+												</div>
+												<div className="pb-2">
+													<Typography variant="h6">{username}</Typography>
+												</div>
+											</Box>
+											<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
+												<Typography className="pb-3">
+													Style Tokyo user ID
 												</Typography>
-											</div>
-										</Box>
-										<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
-											<Typography className="pb-3">パスワード</Typography>
-											<FormControl className="w-full">
-												<TextField
-													id="outlined-basic"
-													label="※変更時のみ入力"
-													variant="outlined"
-												/>
-											</FormControl>
-										</Box>
-										<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
-											<Typography className="pb-3">パスワード確認</Typography>
-											<FormControl className="w-full">
-												<TextField
-													id="outlined-basic"
-													s
-													label="※変更時のみ入力"
-													variant="outlined"
-												/>
-											</FormControl>
-										</Box>
-									</div>
-								</CardContent>
-							</Card>
-						</Box>
+												<FormControl className="w-full">
+													<TextField
+														id="outlined-basic"
+														// label="※変更時のみ入力"
+														variant="outlined"
+														onChange={handleChangeTextarea}
+														name="style_tokyo_id"
+														value={data.style_tokyo_id}
+													/>
+												</FormControl>
+											</Box>
+											<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
+												<Typography className="pb-3">パスワード</Typography>
+												<FormControl className="w-full">
+													<TextField
+														id="outlined-basic"
+														label="※変更時のみ入力"
+														variant="outlined"
+														onChange={handleChangeTextarea}
+														name="password"
+														value={data.password}
+													/>
+												</FormControl>
+											</Box>
+											<Box sx={{ minWidth: 300 }} className="pb-6 pt-6">
+												<Typography className="pb-3">パスワード確認</Typography>
+												<FormControl className="w-full">
+													<TextField
+														id="outlined-basic"
+														label="※変更時のみ入力"
+														variant="outlined"
+														onChange={handleChangeTextarea}
+														name="confirm_password"
+														value={data.confirm_password}
+													/>
+												</FormControl>
+											</Box>
+										</div>
+									</CardContent>
+								</Card>
+							</Box>
+						</div>
 					</div>
-				</div>
-				<div className="flex justify-center items-center mt-12">
-					<Button variant="contained" className="py-3 w-64">
-						更新
-					</Button>
-				</div>
+					<div className="flex justify-center items-center mt-12 mb-12">
+						<Button variant="contained" className="py-3 w-64" type="submit">
+							更新
+						</Button>
+					</div>
+				</form>
 			</div>
 		</>
 	);

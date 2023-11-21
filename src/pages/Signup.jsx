@@ -8,7 +8,7 @@ const Signup = () => {
 	const [inputValue, setInputValue] = useState({
 		email: "",
 		username: "",
-		id: "",
+		style_tokyo_id: "",
 		password: "",
 		confirm_password: "",
 		salon_id: "",
@@ -20,7 +20,7 @@ const Signup = () => {
 		password,
 		username,
 		confirm_password,
-		id,
+		style_tokyo_id,
 		salon_id,
 		salon_password,
 		salon_confirm_password,
@@ -128,13 +128,13 @@ const Signup = () => {
 								htmlFor="email"
 								className="block text-md font-bold leading-6 text-gray-900"
 							>
-								ID
+								Style Tokyo User ID
 							</label>
 							<div className="mt-2">
 								<input
-									name="id"
+									name="style_tokyo_id"
 									type="text"
-									value={id}
+									value={style_tokyo_id}
 									placeholder="例: abc123"
 									onChange={handleOnChange}
 									className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"

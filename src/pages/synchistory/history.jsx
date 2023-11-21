@@ -61,6 +61,8 @@ const History = () => {
 		content: "",
 	});
 
+	//textarea
+
 	const handleChangeTextarea = (e) => {
 		setData((data) => ({ ...data, [e.target.name]: e.target.value }));
 	};
@@ -101,6 +103,42 @@ const History = () => {
 			[event.target.name]: event.target.checked,
 		});
 	};
+	const columns = [
+		{ field: "id", headerName: "番号", type: "number", width: 50 },
+		{
+			field: "sync_time",
+			headerName: "同期時刻",
+			type: "text",
+			width: 150,
+		},
+		{
+			field: "type",
+			headerName: "タイプ",
+			type: "text",
+			width: 150,
+		},
+		{
+			field: "content",
+			headerName: "内容",
+			type: "text",
+			width: 390,
+		},
+	];
+
+	// const rows = blog.map((item, index) => ({
+	// 	id: index + 1,
+	// 	sync_time: item.sync_time,
+	// 	type: item.type,
+	// 	content: item.content,
+	// 	_id: item._id,
+	// }));
+	const rows = [
+		{ id: 1, sync_time: "Snow", type: "Jon", content: 35 },
+		{ id: 2, sync_time: "Snow", type: "Jon", content: 35 },
+		{ id: 3, sync_time: "Snow", type: "Jon", content: 35 },
+		{ id: 4, sync_time: "Snow", type: "Jon", content: 35 },
+		{ id: 5, sync_time: "Snow", type: "Jon", content: 35 },
+	];
 
 	const handleChange_select = (event) => {
 		setAge(event.target.value);
@@ -132,8 +170,10 @@ const History = () => {
 																		</FormLabel> */}
 
 											<FormGroup>
-												<div className="flex pt-3 align-middle">
-													<div><Typography></Typography></div>
+												<div className="flex pt-3 justify-start items-center align-middle pl-12">
+													<div className="pr-12">
+														<Typography>type</Typography>
+													</div>
 													<div>
 														<FormControl className="w-48">
 															<InputLabel
@@ -158,193 +198,40 @@ const History = () => {
 														</FormControl>
 													</div>
 												</div>
-												<div className="flex pt-3 align-middle">
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.b}
-																onChange={handleChange}
-																name="b"
-															/>
-														}
-														label="type"
-														className="pr-14 mr-0 mb-0"
-													/>
-													<FormControl className="w-48">
-														<InputLabel
-															id="demo-simple-select-label"
+												<div className="flex pt-3 justify-start items-center align-middle pl-12">
+													<div className="pr-12">
+														<Typography>日付</Typography>
+													</div>
+													<div>
+														<input
+															type="date"
+															name="date"
+															value={data.date}
+															onChange={handleChangeSyncDate}
+															className="block mr-6 w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+														/>
+													</div>
+												</div>
+												<div className="flex pt-3 justify-start items-center align-middle pl-12 pb-8">
+													<div className="pr-12">
+														<Typography>内容</Typography>
+													</div>
+													<div>
+														<TextField
+															id="outlined-basic"
+															name="content"
+															value={data.content}
+															onChange={handleChangeTextarea}
+															label="スタイル名"
+															variant="outlined"
 															className="w-44"
-														>
-															type
-														</InputLabel>
-														<Select
-															labelId="demo-simple-select-label"
-															id="demo-simple-select"
-															value={data.type}
-															label="type"
-															name="type"
-															onChange={handleChangeSelect}
-															className="w-44"
-														>
-															<MenuItem value={"全て"}>全て</MenuItem>
-															<MenuItem value={"Style"}>Style</MenuItem>
-															<MenuItem value={"Blog"}>Blog</MenuItem>
-														</Select>
-													</FormControl>
-												</div>
-												<div>
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.gilad}
-																onChange={handleChange}
-																name="gilad"
-															/>
-														}
-														label="更新停止"
-														className="pr-10"
-													/>
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.jason}
-																onChange={handleChange}
-																name="jason"
-															/>
-														}
-														label="削除"
-													/>
-												</div>
-												<div>
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.antoine}
-																onChange={handleChange}
-																name="antoine"
-															/>
-														}
-														label="同期期間"
-													/>
-												</div>
-												<div className="flex flex-row pl-12 pb-2">
-													<input
-														type="date"
-														className="block mr-6 w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
-													/>
-													<input
-														type="date"
-														className="block w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
-													/>
-												</div>
-												<div className="flex pt-2">
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.a}
-																onChange={handleChange}
-																name="a"
-															/>
-														}
-														label="同期開始時間"
-														className="mr-0 mb-0"
-													/>
-													<input
-														type="time"
-														className="ml-6 block w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
-													/>
+														/>
+													</div>
 												</div>
 
-												<div className="flex pt-3 align-middle">
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.c}
-																onChange={handleChange}
-																name="c"
-															/>
-														}
-														label="スタイリスト"
-														className="pr-6 mr-0 mb-0"
-													/>
-													<FormControl className="w-48">
-														<InputLabel
-															id="demo-simple-select-label"
-															className="w-44"
-														>
-															スタイリスト
-														</InputLabel>
-														<Select
-															labelId="demo-simple-select-label"
-															id="demo-simple-select"
-															value={age}
-															label="スタイリスト"
-															onChange={handleChange_select}
-															className="w-44"
-														>
-															<MenuItem value={10}>指定なし</MenuItem>
-															<MenuItem value={20}>TATSUYA</MenuItem>
-															<MenuItem value={30}>TAKUMI</MenuItem>
-															<MenuItem value={30}>GOTA</MenuItem>
-															<MenuItem value={30}>NAOKI</MenuItem>
-															<MenuItem value={30}>GO 立川</MenuItem>
-														</Select>
-													</FormControl>
-												</div>
-												<div className="flex pt-3">
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.d}
-																onChange={handleChange}
-																name="d"
-															/>
-														}
-														label="スタイル名"
-														className="pr-10 mr-0 mb-0"
-													/>
-													<TextField
-														id="outlined-basic"
-														label="スタイル名"
-														variant="outlined"
-														className="w-44"
-													/>
-												</div>
-												<div className="flex pt-3 align-middle">
-													<FormControlLabel
-														control={
-															<Switch
-																checked={state.e}
-																onChange={handleChange}
-																name="e"
-															/>
-														}
-														label="MODE"
-														className="pr-16 mr-0 mb-0"
-													/>
-													<FormControl className="w-48 ml-2">
-														<InputLabel
-															id="demo-simple-select-label"
-															className="w-44"
-														>
-															MODE
-														</InputLabel>
-														<Select
-															labelId="demo-simple-select-label"
-															id="demo-simple-select"
-															value={age}
-															label="MODE"
-															onChange={handleChange_select}
-															className="w-44"
-														>
-															<MenuItem value={10}>ADD</MenuItem>
-															<MenuItem value={20}>DEL</MenuItem>
-														</Select>
-													</FormControl>
-												</div>
-												<div className="flex justify-center items-center pt-8 pb-8">
-													<Button variant="contained" className="px-5 py">
-														更新
+												<div className="flex justify-center items-center pb-8">
+													<Button variant="contained" className="px-5 py-2">
+														確認
 													</Button>
 												</div>
 											</FormGroup>
@@ -355,6 +242,24 @@ const History = () => {
 							</Typography>
 						</AccordionDetails>
 					</Accordion>
+				</div>
+			</div>
+			<div>
+				<div className="px-12 pt-16 max-w-4xl flex justify-center mx-auto">
+					<div style={{ height: "100%", width: "100%" }}>
+						<DataGrid
+							rows={rows}
+							columns={columns}
+							initialState={{
+								pagination: {
+									paginationModel: { page: 0, pageSize: 10 },
+								},
+							}}
+							pageSizeOptions={[5, 10, 20, 30]}
+							checkboxSelection
+							rowHeight={60}
+						/>
+					</div>
 				</div>
 			</div>
 		</>

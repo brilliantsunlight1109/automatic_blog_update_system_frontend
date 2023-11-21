@@ -103,7 +103,7 @@ const Coupon = () => {
 							最終同期 2023-11-13 10:41
 						</Typography>
 					</div>
-					<div className="px-12 pt-10 w-1/3">
+					<div className="px-12 pt-10 w-3/7">
 						<div style={{ height: "100%", width: "100%" }}>
 							<DataGrid
 								rows={rows}

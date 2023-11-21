@@ -156,7 +156,7 @@ const UpdateBlog = () => {
 				console.log(res.data.message);
 			})
 			.catch((err) => {
-				console.log("Error couldn't create Style");
+				console.log("Error couldn't update Style");
 				console.log(err.message);
 			});
 	};

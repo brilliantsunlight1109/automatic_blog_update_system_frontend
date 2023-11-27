@@ -62,6 +62,19 @@ const UpdateStyle = () => {
 	const [style, setStyle] = useState([]);
 	//tab
 	const [key, setKey] = useState("home");
+	//show,flag
+
+	const [show, setShow] = useState({
+		selectedImage1: "",
+		selectedImage2: "",
+		selectedImage3: "",
+	});
+
+	const [flag, setFlag] = useState({
+		selectedImage1: false,
+		selectedImage2: false,
+		selectedImage3: false,
+	});
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -278,22 +291,44 @@ const UpdateStyle = () => {
 		width: 1,
 	});
 
-	const handleFileChange = (key) => (event) => {
-		const file = event.target.files[0];
+	// const handleFileChange = (key) => (event) => {
+	// 	const file = event.target.files[0];
 
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				const image = reader.result;
+	// 	if (file) {
+	// 		const reader = new FileReader();
+	// 		reader.onload = () => {
+	// 			const image = reader.result;
 
-				setData((data) => ({
-					...data,
-					[key]: image,
-				}));
-			};
-			reader.readAsDataURL(file);
-		}
+	// 			setData((data) => ({
+	// 				...data,
+	// 				[key]: image,
+	// 			}));
+	// 		};
+	// 		reader.readAsDataURL(file);
+	// 	}
+	// };
+
+	const handleFileChange = (key) => (e) => {
+		const file = e.target.files[0];
+		setData((data) => ({
+			...data,
+			[key]: file,
+		}));
+		setShow((data) => ({
+			...data,
+			[key]: URL.createObjectURL(file),
+		}));
+		setFlag((data) => ({
+			...data,
+			[key]: true,
+		}));
+		// console.log("selectedImage1: ", show.selectedImage1);
+		// console.log("selectedImage2: ", show.selectedImage2);
+		// console.log("selectedImage3: ", show.selectedImage3);
 	};
+	console.log("selectedImage1: ", flag.selectedImage1);
+	console.log("selectedImage2: ", flag.selectedImage2);
+	console.log("selectedImage3: ", flag.selectedImage3);
 
 	const handleChange = (event) => {
 		setAge(event.target.value);
@@ -324,9 +359,59 @@ const UpdateStyle = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		const formData = new FormData();
+		formData.append("update_stop", data.update_stop);
+		formData.append("internal_memo", data.internal_memo);
+		formData.append("stylist_comment", data.stylist_comment);
+		formData.append("style_name", data.style_name);
+		formData.append(
+			"styling_arrangement_point",
+			data.styling_arrangement_point
+		);
+		formData.append("sync_date_start", data.sync_date_start);
+		formData.append("sync_date_end", data.sync_date_end);
+		formData.append("sync_start_time", data.sync_start_time);
+		formData.append("sync_interval", data.sync_interval);
+		formData.append("post_mode", data.post_mode);
+		formData.append("selectedImage1", data.selectedImage1);
+		formData.append("selectedImage2", data.selectedImage2);
+		formData.append("selectedImage3", data.selectedImage3);
+		formData.append("front", data.front);
+		formData.append("front1", data.front1);
+		formData.append("front2", data.front2);
+		formData.append("stylist_name", data.stylist_name);
+		formData.append("sex", data.sex);
+		formData.append("length", data.length);
+		formData.append("color", data.color);
+		formData.append("style_image", data.style_image);
+		formData.append("style_menu_perm", data.style_menu_perm);
+		formData.append("style_menu_straight_perm", data.style_menu_straight_perm);
+		formData.append("extensions", data.extensions);
+		formData.append("coupon", data.coupon);
+		formData.append("hair_amount_few", data.hair_amount_few);
+		formData.append("hair_amount_usually", data.hair_amount_usually);
+		formData.append("hair_amount_many", data.hair_amount_many);
+		formData.append("hair_type_soft", data.hair_type_soft);
+		formData.append("hair_type_usually", data.hair_type_usually);
+		formData.append("hair_type_hard", data.hair_type_hard);
+		formData.append("thickness_thin", data.thickness_thin);
+		formData.append("thickness_usually", data.thickness_usually);
+		formData.append("thickness_thick", data.thickness_thick);
+		formData.append("habit_none", data.habit_none);
+		formData.append("habit_bit", data.habit_bit);
+		formData.append("habit_strong", data.habit_strong);
+		formData.append("face_type_round_shape", data.face_type_round_shape);
+		formData.append(
+			"face_type_inverted_triangle",
+			data.face_type_inverted_triangle
+		);
+		formData.append("face_type_egg_shapped", data.face_type_egg_shapped);
+		formData.append("face_type_base", data.face_type_base);
+		formData.append("face_type_square", data.face_type_square);
+		formData.append("menu_content", data.menu_content);
 
 		axios
-			.put(`http://localhost:4000/api/style/${id}`, data)
+			.put(`http://localhost:4000/api/style/${id}`, formData)
 			.then((res) => {
 				// setData({
 				// 	update_stop: false,
@@ -744,10 +829,13 @@ const UpdateStyle = () => {
 
 																	<div className="flex justify-center items-center pt-5 pb-5">
 																		<img
-																			src={data.selectedImage1}
+																			src={
+																				flag.selectedImage1
+																					? show.selectedImage1
+																					: data.selectedImage1
+																			}
 																			// src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
-																			width={200}
-																			// height={200}
+																			className="w-40 h-40"
 																		/>
 																	</div>
 																	<div className="flex justify-center items-center">
@@ -801,10 +889,13 @@ const UpdateStyle = () => {
 																	</FormControl>
 																	<div className="flex justify-center items-center pt-5 pb-5">
 																		<img
-																			src={data.selectedImage2}
+																			src={
+																				flag.selectedImage2
+																					? show.selectedImage2
+																					: data.selectedImage2
+																			}
 																			// src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
-																			width={200}
-																			// height={200}
+																			className="w-40 h-40"
 																		/>
 																	</div>
 																	<div className="flex justify-center items-center">
@@ -858,10 +949,13 @@ const UpdateStyle = () => {
 																	</FormControl>
 																	<div className="flex justify-center items-center pt-5 pb-5">
 																		<img
-																			src={data.selectedImage3}
+																			src={
+																				flag.selectedImage3
+																					? show.selectedImage3
+																					: data.selectedImage3
+																			}
 																			// src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
-																			width={200}
-																			// height={200}
+																			className="w-40 h-40"
 																		/>
 																	</div>
 																	<div className="flex justify-center items-center">

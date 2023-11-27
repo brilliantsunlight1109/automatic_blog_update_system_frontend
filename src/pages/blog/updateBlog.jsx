@@ -67,6 +67,8 @@ const VisuallyHiddenInput = styled("input")({
 
 const UpdateBlog = () => {
 	const navigate = useNavigate();
+	const [show, setShow] = useState("");
+	const [flag, setFlag] = useState(true);
 	const [key, setKey] = useState("post");
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
@@ -121,27 +123,46 @@ const UpdateBlog = () => {
 		width: 1,
 	});
 
-	const handleFileChange = (key) => (event) => {
-		const file = event.target.files[0];
+	// const handleFileChange = (key) => (event) => {
+	// 	const file = event.target.files[0];
 
-		if (file) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				const image = reader.result;
+	// 	if (file) {
+	// 		const reader = new FileReader();
+	// 		reader.onload = () => {
+	// 			const image = reader.result;
 
-				setData((data) => ({
-					...data,
-					[key]: image,
-				}));
-			};
-			reader.readAsDataURL(file);
-		}
+	// 			setData((data) => ({
+	// 				...data,
+	// 				[key]: image,
+	// 			}));
+	// 		};
+	// 		reader.readAsDataURL(file);
+	// 	}
+	// };
+
+	const handleFileChange = (key) => (e) => {
+		setData((data) => ({
+			...data,
+			[key]: e.target.files[0],
+		}));
+		setShow(URL.createObjectURL(e.target.files[0]));
+		setFlag(false);
 	};
+	console.log("show:", show);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		const formData = new FormData();
+		formData.append("post_date", data.post_date);
+		formData.append("contributor", data.contributor);
+		formData.append("category", data.category);
+		formData.append("title_character", data.title_character);
+		formData.append("coupon", data.coupon);
+		formData.append("signature", data.signature);
+		formData.append("uploadImage", data.uploadImage);
+		formData.append("post_text", data.post_text);
 		axios
-			.put(`http://localhost:4000/api/blog/${id}`, data)
+			.put(`http://localhost:4000/api/blog/${id}`, formData)
 			.then((res) => {
 				// setData({
 				// 	post_date: "",
@@ -714,13 +735,12 @@ const UpdateBlog = () => {
 																画像をアップロード
 																<VisuallyHiddenInput type="file" />
 															</Button> */}
-																<div className="flex justify-between flex-col h-[20rem]">
+																<div className="flex justify-between flex-col">
 																	<div className="flex justify-center items-center pt-5 pb-5">
 																		<img
-																			src={data.uploadImage}
+																			src={flag ? data.uploadImage : show}
 																			// src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format"
-																			width={200}
-																			// height={200}
+																			className="w-40 h-40"
 																		/>
 																	</div>
 																	<div className="flex justify-center items-center">
@@ -732,6 +752,7 @@ const UpdateBlog = () => {
 																			アップロード
 																			<VisuallyHiddenInput
 																				type="file"
+																				accept=".png, .jpg, .jpeg"
 																				onChange={handleFileChange(
 																					"uploadImage"
 																				)}

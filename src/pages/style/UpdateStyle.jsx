@@ -492,7 +492,7 @@ const UpdateStyle = () => {
 						</div>
 					</header>
 					<main>
-						<div className="px-16 max-w-full py-6 sm:px-6 lg:px-8 bg-[#9ca3af0d] min-h-[50.6rem]">
+						<div className="px-16 max-w-full py-6 sm:px-6 lg:px-8 bg-[#9ca3af0d] min-h-[50.6rem] max-md:px-6">
 							<Tabs
 								id="controlled-tab-example"
 								activeKey={key}
@@ -530,8 +530,8 @@ const UpdateStyle = () => {
 													</AppBar>
 													<Card className="flex justify-center w-full">
 														<CardContent className="rounded-tr-none">
-															<div className="flex justify-center items-center gap-x-16 pb-3 pt-4">
-																<Box sx={{ minWidth: 300 }}>
+															<div className="flex justify-center items-center gap-x-16 pb-3 pt-4 max-md:block">
+																<Box className="w-[20rem] flex justify-center items-center max-md:mb-6 max-md:w-[15rem]">
 																	<FormControl fullWidth>
 																		<InputLabel id="demo-simple-select-label">
 																			未選択
@@ -550,10 +550,7 @@ const UpdateStyle = () => {
 																		</Select>
 																	</FormControl>
 																</Box>
-																<Box
-																	sx={{ minWidth: 300 }}
-																	className="flex justify-center items-center"
-																>
+																<Box className="flex justify-center items-center w-[20rem] max-md:w-[15rem]">
 																	<Button
 																		variant="contained"
 																		className="py-3 w-full"
@@ -615,7 +612,7 @@ const UpdateStyle = () => {
 													</AppBar>
 													<Card className="flex justify-start w-full">
 														<CardContent className="rounded-tr-none">
-															<div className="flex justify-start pl-20 pb-3 pt-3 w-full flex-col">
+															<div className="flex justify-start pl-20 pb-3 pt-3 w-full flex-col max-md:px-4">
 																<Box>
 																	<FormControl
 																		component="fieldset"
@@ -642,7 +639,7 @@ const UpdateStyle = () => {
 																</Box>
 																<Box>
 																	<div className="mb-2 mt-1">内部メモ</div>
-																	<FormGroup className="w-[40rem]">
+																	<FormGroup className="w-[40rem] max-md:w-full">
 																		<Form.Control
 																			as="textarea"
 																			rows={3}
@@ -655,13 +652,13 @@ const UpdateStyle = () => {
 																</Box>
 																<Box>
 																	<div className="mt-3 mb-3">同期期間</div>
-																	<div className="flex flex-row pb-2">
+																	<div className="flex flex-row pb-2 max-md:block">
 																		<input
 																			type="date"
 																			name="sync_date_start"
 																			onChange={handleChangeSyncDate}
 																			value={data.sync_date_start}
-																			className="block mr-6 w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6"
+																			className="block mr-6 w-44 rounded-md border-0 px-3 py-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-100 sm:text-sm sm:leading-6 max-md:mb-3"
 																		/>
 
 																		<input
@@ -761,10 +758,10 @@ const UpdateStyle = () => {
 																		</FormControl>
 																	</div>
 																</Box>
-																<Box>
+																<Box className="ml-3 mt-3 mb-3 max-md:ml-1">
 																	<Typography
 																		level="body-sm"
-																		className="ml-3 mt-3 mb-3 text-slate-400"
+																		className="text-slate-400"
 																	>
 																		前回の同期で追加したスタイルを削除してから追加を行うモードです
 																	</Typography>
@@ -802,10 +799,10 @@ const UpdateStyle = () => {
 													</AppBar>
 													<Card className="flex justify-center w-full">
 														<CardContent className="rounded-tr-none w-full">
-															<div className="flex justify-around items-center pb-3 pt-4 w-full">
+															<div className="flex justify-around items-center pb-3 pt-4 w-full max-md:block max-md:px-4 max-md:w-[18rem] max-md:mx-auto">
 																<Box
 																	sx={{ minWidth: 200 }}
-																	className="flex justify-between flex-col h-[24.5rem]"
+																	className="flex justify-between flex-col h-[24.5rem] max-md:mb-8"
 																>
 																	<div>
 																		<FormControl fullWidth>
@@ -856,7 +853,7 @@ const UpdateStyle = () => {
 																</Box>
 																<Box
 																	sx={{ minWidth: 200 }}
-																	className="flex justify-between flex-col h-[24.5rem]"
+																	className="flex justify-between flex-col h-[24.5rem] max-md:mb-8"
 																>
 																	<FormControl fullWidth>
 																		<InputLabel id="demo-simple-select-label">
@@ -1005,10 +1002,10 @@ const UpdateStyle = () => {
 															{/* <Button color="inherit">Login</Button> */}
 														</Toolbar>
 													</AppBar>
-													<Card className="flex justify-start pl-12 w-full">
+													<Card className="flex justify-start pl-12 w-full max-md:px-auto max-md:justify-center max-md:pl-0">
 														<CardContent className="rounded-tr-none">
-															<div className="gap-x-16 pb-3 pt-4">
-																<Box sx={{ minWidth: 300 }} className="pb-6">
+															<div className="gap-x-16 pb-3 pt-4 max-md:w-[18rem]">
+																<Box className="pb-6 w-20rem">
 																	<Typography className="pb-3">
 																		スタイリスト名
 																	</Typography>
@@ -1042,7 +1039,7 @@ const UpdateStyle = () => {
 																	<div className="mb-2 mt-1">
 																		コメント 0/120文字
 																	</div>
-																	<FormGroup className="w-[40rem]">
+																	<FormGroup className="w-[40rem] max-md:w-[18rem]">
 																		<Form.Control
 																			name="stylist_comment"
 																			as="textarea"
@@ -1084,10 +1081,10 @@ const UpdateStyle = () => {
 															{/* <Button color="inherit">Login</Button> */}
 														</Toolbar>
 													</AppBar>
-													<Card className="flex justify-start pl-12 w-full">
+													<Card className="flex justify-start pl-12 w-full max-md:pl-4 max-md:pr-4 max-md:justify-center">
 														<CardContent className="rounded-tr-none">
 															<div className="gap-x-16 pb-3 pt-4">
-																<Box sx={{ minWidth: 300 }} className="pb-6">
+																<Box className="pb-6 w-[40rem] max-md:w-[17rem]">
 																	<Typography className="pb-3">
 																		スタイル名 0/30文字
 																	</Typography>
@@ -1130,7 +1127,10 @@ const UpdateStyle = () => {
 																		</RadioGroup>
 																	</FormControl>
 																</Box>
-																<Box sx={{ minWidth: 300 }} className="pb-6">
+																<Box
+																	sx={{ minWidth: 300 }}
+																	className="pb-6 max-md:w-[17rem]"
+																>
 																	<Typography className="pb-3">長さ</Typography>
 																	<FormControl className="w-full">
 																		<InputLabel id="demo-simple-select-label">
@@ -1168,7 +1168,10 @@ const UpdateStyle = () => {
 																		</Select>
 																	</FormControl>
 																</Box>
-																<Box sx={{ minWidth: 300 }} className="pb-6">
+																<Box
+																	sx={{ minWidth: 300 }}
+																	className="pb-6 max-md:w-[17rem]"
+																>
 																	<Typography className="pb-3">
 																		カラー
 																	</Typography>
@@ -1202,7 +1205,10 @@ const UpdateStyle = () => {
 																		</Select>
 																	</FormControl>
 																</Box>
-																<Box sx={{ minWidth: 300 }} className="pb-6">
+																<Box
+																	sx={{ minWidth: 300 }}
+																	className="pb-6 max-md:w-[17rem]"
+																>
 																	<Typography className="pb-3">
 																		イメージ
 																	</Typography>
@@ -1270,7 +1276,7 @@ const UpdateStyle = () => {
 																	</FormGroup>
 																</Box>
 																<Box>
-																	<FormGroup className="w-[40rem]">
+																	<FormGroup className="w-[40rem] max-md:w-[19rem]">
 																		<Form.Control
 																			as="textarea"
 																			rows={3}
@@ -1281,7 +1287,10 @@ const UpdateStyle = () => {
 																		/>
 																	</FormGroup>
 																</Box>
-																<Box sx={{ minWidth: 300 }} className="pb-6">
+																<Box
+																	sx={{ minWidth: 300 }}
+																	className="pb-6 max-md:w-[17rem]"
+																>
 																	<Typography className="pb-3 pt-6">
 																		クーポン
 																	</Typography>
@@ -1527,9 +1536,9 @@ const UpdateStyle = () => {
 															{/* <Button color="inherit">Login</Button> */}
 														</Toolbar>
 													</AppBar>
-													<Card className="flex justify-start pl-12 w-full">
+													<Card className="flex justify-start pl-12 w-full max-md:justify-center max-md:pl-4 max-md:pr-4 max-md:w-full">
 														<CardContent className="rounded-tr-none">
-															<div className="gap-x-16 pb-3 pt-4">
+															<div className="gap-x-16 pb-3 pt-4 max-md:w-full">
 																<Box>
 																	<div>
 																		<div className="pl-2 pt-4 pb-2">
@@ -1540,7 +1549,7 @@ const UpdateStyle = () => {
 																				髪量
 																			</Typography>
 																		</div>
-																		<div className="flex gap-x-12">
+																		<div className="flex gap-x-12 flex-wrap">
 																			<div className="flex justify-center items-center">
 																				<Checkbox
 																					checked={data.hair_amount_few}
@@ -1591,7 +1600,7 @@ const UpdateStyle = () => {
 																				髪質
 																			</Typography>
 																		</div>
-																		<div className="flex">
+																		<div className="flex flex-wrap">
 																			<div className="flex justify-center items-center pr-8">
 																				<Checkbox
 																					checked={data.hair_type_soft}
@@ -1642,7 +1651,7 @@ const UpdateStyle = () => {
 																				太さ
 																			</Typography>
 																		</div>
-																		<div className="flex gap-x-12">
+																		<div className="flex gap-x-12 flex-wrap">
 																			<div className="flex justify-center items-center">
 																				<Checkbox
 																					checked={data.thickness_thin}
@@ -1693,7 +1702,7 @@ const UpdateStyle = () => {
 																				クセ
 																			</Typography>
 																		</div>
-																		<div className="flex gap-x-12">
+																		<div className="flex gap-x-12 flex-wrap">
 																			<div className="flex justify-center items-center">
 																				<Checkbox
 																					checked={data.habit_none}
@@ -1744,7 +1753,7 @@ const UpdateStyle = () => {
 																				顔型
 																			</Typography>
 																		</div>
-																		<div className="flex gap-x-12">
+																		<div className="flex gap-x-12 flex-wrap">
 																			<div className="flex justify-center items-center">
 																				<Checkbox
 																					checked={data.face_type_round_shape}
@@ -1846,14 +1855,14 @@ const UpdateStyle = () => {
 															{/* <Button color="inherit">Login</Button> */}
 														</Toolbar>
 													</AppBar>
-													<Card className="flex justify-start pl-12 w-full">
+													<Card className="flex justify-start pl-12 w-full max-md:justify-center max-md:pl-4 max-md:pr-4">
 														<CardContent className="rounded-tr-none">
 															<div className="gap-x-16 pb-3 pt-4">
 																<Box>
 																	<div className="mb-2 mt-1">
 																		ポイント 0/120文字
 																	</div>
-																	<FormGroup className="w-[40rem]">
+																	<FormGroup className="w-[40rem] max-md:w-[18rem]">
 																		<Form.Control
 																			as="textarea"
 																			rows={3}
@@ -1880,7 +1889,7 @@ const UpdateStyle = () => {
 													</Button>
 												</Box>
 											</div> */}
-											<div className="mt-8 mb-8 flex justify-center gap-x-14">
+											<div className="mt-8 mb-8 flex justify-center gap-x-14 max-md:flex-col-reverse max-md:gap-6">
 												<Box
 													sx={{ minWidth: 300 }}
 													className="flex justify-center items-center"

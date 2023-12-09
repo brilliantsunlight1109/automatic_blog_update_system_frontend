@@ -55,7 +55,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const StyleTemplate = () => {
 	const columns = [
-		{ field: "id", headerName: "番号", type: "number", width: 100 },
+		{ field: "id", headerName: "番号", type: "number", width: 50 },
 		{
 			field: "template_name",
 			headerName: "テンプレート名",
